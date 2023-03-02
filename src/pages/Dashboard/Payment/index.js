@@ -1,3 +1,7 @@
+import PersonalTicketAndPayment from '../../../components/PersonalTicketAndPayment';
+
 export default function Payment() {
-  return 'Pagamento: Em breve!';
+  return (
+    <PersonalTicketAndPayment />
+  );
 }
