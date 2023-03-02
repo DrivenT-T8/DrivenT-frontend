@@ -43,7 +43,7 @@
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "off",
       "indent": [
-        "erro",
+        "error",
         2
       ],
       "linebreak-style": 0,
