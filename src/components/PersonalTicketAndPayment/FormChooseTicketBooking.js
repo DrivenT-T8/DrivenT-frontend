@@ -1,13 +1,47 @@
 import styled from 'styled-components';
 
-export const FormChooseTicketBooking = styled.form`
-  background-color: aquamarine;
+export default function FormChooseTicketBooking() {
+  return (
+    <>
+      {/* Depois que escolher a modalidade de ingresso abaixo, abre as opções (ou não, dependendo do tipo de ingresso)do próximo TicketOption */}
+      <TicketOption>
+        <span>Primeiro, escolha sua modalidade de ingresso</span>
+        <TicketType>
+          <button>
+            <p>Presencial</p>
+            <p>R$ 250</p>
+          </button>
+          <button>
+            <p>Online</p>
+            <p>R$ 100</p>
+          </button>
+        </TicketType>
+      </TicketOption>
 
-  display: flex;
-  flex-direction: column;
-`;
+      <TicketOption>
+        <span>Ótimo! Agora escolha sua modalidade de hospedagem</span>
+        <div>
+          <button>
+            <p>Sem Hotel</p>
+            <p>+ R$ 0</p>
+          </button>
+          <button>
+            <p>Com Hotel</p>
+            <p>+ R$ 350</p>
+          </button>
+        </div>
+      </TicketOption>
 
-export const TicketOption = styled.div`
+      {/* Depois que os TicketsOptions tiverem sido selecionados, aparece esse botão para reservar o ingresso */}
+      <div>
+        <span></span>
+        <button>RESERVAR INGRESSO</button>
+      </div>
+    </>
+  );
+}
+
+const TicketOption = styled.div`
     background-color: bisque;
 
     > span {
@@ -18,7 +52,7 @@ export const TicketOption = styled.div`
     }
 `;
 
-export const TicketType = styled.div`
+const TicketType = styled.div`
     margin: 17px 0 35px 0;
     display: flex;
     gap: 5%;
