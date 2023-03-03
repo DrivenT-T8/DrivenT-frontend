@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import TicketContext from '../../contexts/TicketContext';
 import useTypeTicket from '../../hooks/api/useTypeTicket';
@@ -6,8 +6,11 @@ import useTypeTicket from '../../hooks/api/useTypeTicket';
 export default function FormChooseTicketBooking() {
   const { typeTicket } = useTypeTicket();
   const { typeTicketSelected, setTypeTicketSelected } = useContext(TicketContext);
+  const [ clickedTicketType, setClickedTicketType ] = useState(false);
 
-  function getPresential(e) {
+  function getTicketTypeAndPrice(e) {
+    setClickedTicketType(true);
+
     if(e.name === 'Presencial') {
       setTypeTicketSelected([e.name, e.price]);
     } else if(e.name === 'Online') {
@@ -17,13 +20,12 @@ export default function FormChooseTicketBooking() {
   
   return (
     <>
-      {/* Depois que escolher a modalidade de ingresso abaixo, abre as opções (ou não, dependendo do tipo de ingresso)do próximo TicketOption */}
       {typeTicket ? (
         <TicketOption>
           <span>Primeiro, escolha sua modalidade de ingresso</span>
           <TicketType>
-            {typeTicket.map((e, key) => (
-              <button onClick={() => getPresential(e)}>
+            {typeTicket.map((e, index) => (
+              <button key={index} onClick={() => getTicketTypeAndPrice(e)}>
                 <p>{e.name}</p>
                 <p>R$ {(e.price)/100}</p>
               </button>
@@ -31,21 +33,23 @@ export default function FormChooseTicketBooking() {
           </TicketType>
         </TicketOption>
       ) : ''}
-      
-      <TicketOption>
-        <span>Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade de hospedagem </span>
-        <div>
-          <button>
-            <p>Sem Hotel</p>
-            <p>+ R$ 0</p>
-          </button>
-          <button>
-            <p>Com Hotel</p>
-            <p>+ R$ 350</p>
-          </button>
-        </div>
-      </TicketOption>
 
+      {typeTicket && clickedTicketType === true ? (
+        <TicketOption>
+          <span>Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade de hospedagem </span>
+          <div>
+            <button>
+              <p>Sem Hotel</p>
+              <p>+ R$ 0</p>
+            </button>
+            <button>
+              <p>Com Hotel</p>
+              <p>+ R$ 350</p>
+            </button>
+          </div>
+        </TicketOption>
+      ) : '' }
+      
       {/* Depois que os TicketsOptions tiverem sido selecionados, aparece esse botão para reservar o ingresso */}
       <div>
         <span></span>

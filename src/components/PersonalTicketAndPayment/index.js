@@ -18,10 +18,6 @@ export default function PersonalTicketAndPayment() {
           </div>
         </section>
       </div>
-
-      <section>
-        <p>Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso</p>
-      </section>
     </>
   );
 }
