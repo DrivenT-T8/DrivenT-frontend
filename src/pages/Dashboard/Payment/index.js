@@ -1,7 +1,8 @@
+import InvalidEnrollment from '../../../components/invalidEnrollment';
 import PersonalTicketAndPayment from '../../../components/PersonalTicketAndPayment';
+import useEnrollment from '../../../hooks/api/useEnrollment';
 
 export default function Payment() {
-  return (
-    <PersonalTicketAndPayment />
-  );
+  const { enrollment } = useEnrollment();
+  return !enrollment ? <InvalidEnrollment /> : <PersonalTicketAndPayment />;
 }
