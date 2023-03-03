@@ -1,25 +1,39 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
+import TicketContext from '../../contexts/TicketContext';
+import useTypeTicket from '../../hooks/api/useTypeTicket';
 
 export default function FormChooseTicketBooking() {
+  const { typeTicket } = useTypeTicket();
+  const { typeTicketSelected, setTypeTicketSelected } = useContext(TicketContext);
+
+  function getPresential(e) {
+    if(e.name === 'Presencial') {
+      setTypeTicketSelected([e.name, e.price]);
+    } else if(e.name === 'Online') {
+      setTypeTicketSelected([e.name, e.price]);
+    }
+  }
+  
   return (
     <>
       {/* Depois que escolher a modalidade de ingresso abaixo, abre as opções (ou não, dependendo do tipo de ingresso)do próximo TicketOption */}
+      {typeTicket ? (
+        <TicketOption>
+          <span>Primeiro, escolha sua modalidade de ingresso</span>
+          <TicketType>
+            {typeTicket.map((e, key) => (
+              <button onClick={() => getPresential(e)}>
+                <p>{e.name}</p>
+                <p>R$ {(e.price)/100}</p>
+              </button>
+            ))}
+          </TicketType>
+        </TicketOption>
+      ) : ''}
+      
       <TicketOption>
-        <span>Primeiro, escolha sua modalidade de ingresso</span>
-        <TicketType>
-          <button>
-            <p>Presencial</p>
-            <p>R$ 250</p>
-          </button>
-          <button>
-            <p>Online</p>
-            <p>R$ 100</p>
-          </button>
-        </TicketType>
-      </TicketOption>
-
-      <TicketOption>
-        <span>Ótimo! Agora escolha sua modalidade de hospedagem</span>
+        <span>Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade de hospedagem </span>
         <div>
           <button>
             <p>Sem Hotel</p>
