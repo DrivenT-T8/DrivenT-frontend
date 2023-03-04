@@ -11,17 +11,11 @@ export default function PersonalTicketAndPayment() {
         <FormChooseTicketBooking />
 
         {/* Depois que apertar no botão de reservar ingresso do form de cima, vai aparecer essa section abaixo na tela para o pagamento */}
-        <section>
-          <div>
-            <span>Ingresso escolhido</span>
-            {/* DESKTOP 6 E 7 DO FIGMA */}
-          </div>
-        </section>
       </div>
     </>
   );
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 `;
