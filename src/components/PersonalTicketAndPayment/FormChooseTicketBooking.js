@@ -7,48 +7,22 @@ export default function FormChooseTicketBooking() {
   const [isHotel, setIsHotel] = useState(false);
   const [noHotel, setNoHotel] = useState(false);
   function remote() {
-    if (showHide) {
-      setShowHide(false);
-    }
-    if (!showHide) {
-      setShowHide(true);
-      setShowSelect(false);
-    }
-    if (!showSelect) {
-      setNoHotel(false);
-      setIsHotel(false);
-    }
+    if (showHide) setShowHide(false); 
+    if (!showHide) setShowHide(true);  setShowSelect(false);
+    if (!showSelect)  setNoHotel(false); setIsHotel(false); 
   }
   function isRemote() {
-    if (showSelect) {
-      setShowSelect(false);
-    }
-    if (!showSelect) {
-      setShowSelect(true);
-      setShowHide(false);
-    }
-    if (!showSelect) {
-      setNoHotel(false);
-      setIsHotel(false);
-    }
+    if (showSelect) setShowSelect(false); 
+    if (!showSelect) setShowSelect(true); setShowHide(false); 
+    if (!showSelect)  setNoHotel(false);   setIsHotel(false); 
   }
   function withHotel() {
-    if (!isHotel) {
-      setIsHotel(true);
-      setNoHotel(false);
-    }
-    if (isHotel) {
-      setIsHotel(false);
-    }
+    if (!isHotel) setIsHotel(true);  setNoHotel(false);
+    if (isHotel) setIsHotel(false);
   }
   function hotel() {
-    if (!noHotel) {
-      setNoHotel(true);
-      setIsHotel(false);
-    }
-    if (noHotel) {
-      setNoHotel(false);
-    }
+    if (!noHotel) setNoHotel(true);  setIsHotel(false);
+    if (noHotel) setNoHotel(false);
   }
   return (
     <>
