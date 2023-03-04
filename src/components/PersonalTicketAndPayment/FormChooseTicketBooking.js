@@ -45,7 +45,7 @@ export default function FormChooseTicketBooking() {
         </TicketOption>
       ) : ''}
 
-      {typeTicket && clickedTicketType === true ? (
+      {typeTicket && typeTicketSelected[0] === 'Presencial' && clickedTicketType === true ? (
         <TicketOption>
           <span>Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade de hospedagem </span>
           <div>
