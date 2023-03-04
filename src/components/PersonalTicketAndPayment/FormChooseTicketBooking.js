@@ -12,12 +12,15 @@ export default function FormChooseTicketBooking() {
   function getTicketTypeAndPrice(e) {
     setClickedTicketType(true);
     console.log(colorButtonSelected);
+    console.log(typeTicket);
    
     if(e.name === 'Presencial') {
       setTypeTicketSelected([e.name, e.price]);
+      console.log(typeTicket.indexOf(e));
       setColorButtonSelected(true);
     } else if(e.name === 'Online') {
       setTypeTicketSelected([e.name, e.price]);
+      console.log(typeTicket.indexOf(e));
       setColorButtonSelected(!colorButtonSelected);
     }
   }
