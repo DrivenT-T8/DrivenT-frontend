@@ -1,120 +1,174 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import TicketContext from '../../contexts/TicketContext';
-import useTypeTicket from '../../hooks/api/useTypeTicket';
 
 export default function FormChooseTicketBooking() {
-  const { typeTicket } = useTypeTicket();
-  const { typeTicketSelected, setTypeTicketSelected } = useContext(TicketContext);
-  const [ clickedTicketType, setClickedTicketType ] = useState(false);
-  const [ colorButtonSelected, setColorButtonSelected ] = useState(false);
-
-  function getTicketTypeAndPrice(e) {
-    setClickedTicketType(true);
-    console.log(colorButtonSelected);
-    console.log(typeTicket);
-   
-    if(e.name === 'Presencial') {
-      setTypeTicketSelected([e.name, e.price]);
-      console.log(typeTicket.indexOf(e));
-      setColorButtonSelected(true);
-    } else if(e.name === 'Online') {
-      setTypeTicketSelected([e.name, e.price]);
-      console.log(typeTicket.indexOf(e));
-      setColorButtonSelected(!colorButtonSelected);
+  const [showSelect, setShowSelect] = useState(false);
+  const [showHide, setShowHide] = useState(false);
+  const [isHotel, setIsHotel] = useState(false);
+  const [noHotel, setNoHotel] = useState(false);
+  function remote() {
+    if (showHide) {
+      setShowHide(false);
+    }
+    if (!showHide) {
+      setShowHide(true);
+      setShowSelect(false);
+    }
+    if (!showSelect) {
+      setNoHotel(false);
+      setIsHotel(false);
     }
   }
-  
+  function isRemote() {
+    if (showSelect) {
+      setShowSelect(false);
+    }
+    if (!showSelect) {
+      setShowSelect(true);
+      setShowHide(false);
+    }
+    if (!showSelect) {
+      setNoHotel(false);
+      setIsHotel(false);
+    }
+  }
+  function withHotel() {
+    if (!isHotel) {
+      setIsHotel(true);
+      setNoHotel(false);
+    }
+    if (isHotel) {
+      setIsHotel(false);
+    }
+  }
+  function hotel() {
+    if (!noHotel) {
+      setNoHotel(true);
+      setIsHotel(false);
+    }
+    if (noHotel) {
+      setNoHotel(false);
+    }
+  }
   return (
     <>
-      {typeTicket ? (
+      <TicketOption>
+        <span>Primeiro, escolha sua modalidade de ingresso</span>
+        <TicketType type={showSelect}>
+          <Button onClick={isRemote} type={showSelect}>
+            <p>Presencial</p>
+            <p>R$ 250</p>
+          </Button>
+          <ButtonReverse onClick={remote} type={showHide}>
+            <p>Online</p>
+            <p>R$ 100</p>
+          </ButtonReverse>
+        </TicketType>
+      </TicketOption>
+
+      {showSelect ? (
         <TicketOption>
-          <span>Primeiro, escolha sua modalidade de ingresso</span>
-          <TicketType>
-            {typeTicket.map((e, index) => (
-              <button 
-                key={index} 
-                colorButtonSelected={colorButtonSelected}
-                onClick={() => getTicketTypeAndPrice(e)}
-              >
-                <p>{e.name}</p>
-                <p>R$ {(e.price)/100}</p>
-              </button>
-            ))}
+          <span>Ótimo! Agora escolha sua modalidade de hospedagem</span>
+          <TicketType type={showSelect}>
+            <Button onClick={withHotel} isHotel={isHotel}>
+              <p>Sem Hotel</p>
+              <p>R$ 250</p>
+            </Button>
+            <ButtonReverse onClick={hotel} noHotel={noHotel}>
+              <p>Com Hotel</p>
+              <p>R$ 100</p>
+            </ButtonReverse>
           </TicketType>
         </TicketOption>
-      ) : ''}
-
-      {typeTicket && clickedTicketType === true ? (
-        <TicketOption>
-          <span>Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade de hospedagem </span>
-          <div>
-            <button>
-              <p>Sem Hotel</p>
-              <p>+ R$ 0</p>
-            </button>
-            <button>
-              <p>Com Hotel</p>
-              <p>+ R$ 350</p>
-            </button>
-          </div>
-        </TicketOption>
-      ) : '' }
-      
-      {/* Depois que os TicketsOptions tiverem sido selecionados, aparece esse botão para reservar o ingresso */}
-      <div>
-        <span></span>
-        <button>RESERVAR INGRESSO</button>
-      </div>
+      ) : (
+        ''
+      )}
+      {showSelect && isHotel || noHotel ||showHide? (
+        <div>
+          <H1> Fechado! O total ficou em R$ 600. Agora é só confirmar: </H1>
+          <ButtonReservar>RESERVAR INGRESSO</ButtonReservar>
+        </div>
+      ) : null}
     </>
   );
 }
 
 const TicketOption = styled.div`
   > span {
-    color: #8E8E8E;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    color: #8e8e8e;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 20px;
   }
 `;
-
+const H1 = styled.div`
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: #8e8e8e;
+  margin-bottom: 17px;
+`;
 const TicketType = styled.div`
   margin: 17px 0 35px 0;
   display: flex;
   gap: 5%;
-
-  button {
-    background: ${(props) =>
-    (props.colorButtonSelected 
-      ? '#FFEED2'
-      : '#FFFFFF'
-    )};
-
-    border: ${(props) =>
-    (props.colorButtonSelected 
-      ? 'none'
-      : '1px solid #CECECE'
-    )}; 
-    border-radius: 20px;
-
-    height: 145px;
-    width: 145px;
-
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-
-    cursor: pointer;
-  }
-
   button p:first-of-type {
     color: #454545;
     font-size: 16px;
   }
-
   button p:last-child {
     color: #898989;
     font-size: 14px;
   }
 `;
+const Button = styled.button`
+  background-color: #ffffff;
+  border: 1px solid #cecece;
+  border-radius: 20px;
+  height: 145px;
+  width: 145px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
+  cursor: pointer;
+  ${(props) => {
+    if (props.type) {
+      return 'background-color:#FFEED2;';
+    }
+    if (props.isHotel) {
+      return 'background-color:#FFEED2;';
+    }
+  }};
+`;
 
+const ButtonReverse = styled(Button)`
+  ${(props) => {
+    if (props.type) {
+      return 'background-color:#FFEED2;';
+    }
+    if (props.noHotel) {
+      return 'background-color:#FFEED2;';
+    }
+  }};
+`;
+const ButtonReservar = styled.button`
+  width: 162px;
+  height: 37px;
+  left: 335px;
+  top: 749px;
+  background: #e0e0e0;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    color: #000000;
+  }
+`;
