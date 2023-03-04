@@ -19,4 +19,13 @@ export async function getPersonalInformations(token) {
 
   return response.data;
 }
+export async function getTicket(token) {
+  const response = await api.get('/tickets/teste', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
 //
