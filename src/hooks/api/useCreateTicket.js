@@ -10,7 +10,9 @@ export default function useCreateTicket() {
     loading: saveTicketLoading,
     error: saveTicketError,
     act: saveTicket,
-  } = useAsync((data) => ticketApi.createTicket(data, token), false);
+  } = useAsync((data) => {
+    ticketApi.createTicket(data, token);
+  }, false);
 
   return {
     saveTicketLoading,
