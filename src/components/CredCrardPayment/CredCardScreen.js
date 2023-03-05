@@ -13,7 +13,7 @@ export default function CredCardScreen() {
 }
 
 const PaymentContainer= styled.div`
-    background-color: bisque;
+    //background-color: bisque;
 
     > span {
         color: #8E8E8E;
