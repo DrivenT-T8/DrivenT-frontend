@@ -5,7 +5,7 @@ export default function TicketType() {
   console.log(ticket);
   return ticket ? (
     <TicketTypeContainer>
-      {ticket.TicketType.isRemote ? (
+      {!ticket.TicketType.isRemote ? (
         <div>
           <h1>Presencial + {ticket.TicketType.includesHotel ? 'Com Hotel' : 'Sem Hotel'} </h1>
           <p>R$ {ticket.TicketType.price}</p>
