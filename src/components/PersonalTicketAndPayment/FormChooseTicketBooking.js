@@ -11,7 +11,7 @@ export default function FormChooseTicketBooking() {
     if (showHide) setShowHide(false);
     if (!showHide) setShowHide(true); setShowSelect(false);
     if (!showSelect) setNoHotel(false); setIsHotel(false);
-  } 
+  }
   function isRemote() {
     if (showSelect) setShowSelect(false);
     if (!showSelect) setShowSelect(true); setShowHide(false);
@@ -55,13 +55,13 @@ export default function FormChooseTicketBooking() {
             </ButtonReverse>
           </TicketType>
         </TicketOption>
-      ) : (
-        null
-      )}
+      ) : null}
       {(showSelect && isHotel) || noHotel || showHide ? (
         <div>
           <H1> Fechado! O total ficou em R$ 600. Agora é só confirmar: </H1>
-          <ButtonReservar  onClick={() => alert('Ingresso Reservado com Sucesso')}> 
+          <ButtonReservar
+            onClick={() => alert(showHide ? 'Online' : `Presencial + ${!isHotel ?'Com Hotel' : 'Sem Hotel'} ` )}
+          >
             RESERVAR INGRESSO
           </ButtonReservar>
         </div>
