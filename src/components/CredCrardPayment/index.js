@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import CredCardScreen from './CredCardScreen';
+import TicketType from '../ticketType';
 
 export default function PersonalCredcard() {
   return (
@@ -9,7 +10,6 @@ export default function PersonalCredcard() {
       {/* Se tiver inscrição, vai aparecer essa primeira div abaixo para escolher o ticket e hotel, se não, vai aparecer a última section com a mensagem que não tem inscrição ainda */}
       <div>
         <CredCardScreen/>
-
         {/* Depois que apertar no botão de reservar ingresso do form de cima, vai aparecer essa section abaixo na tela para o pagamento */}
         <section>
           <div>
@@ -18,10 +18,11 @@ export default function PersonalCredcard() {
         </section>
       </div>
 
-      <section>
+      <Enroll>
         <span>Ingresso escolhido</span>
+        <TicketType/>
         <CredCardScreen/>
-      </section>
+      </Enroll>
     </>
   );
 }
@@ -29,3 +30,8 @@ export default function PersonalCredcard() {
 const StyledTypography = styled(Typography)`
   margin-bottom: 20px!important;
 `;
+const Enroll = styled(Typography)`
+  display: flex;
+  flex-direction:column;
+`;
+
