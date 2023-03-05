@@ -1,18 +1,27 @@
+import { useEffect, useState } from 'react';
 import useTicket from '../../hooks/api/useTicket';
 import { TicketTypeContainer } from './ticketType';
 export default function TicketType() {
   const { ticket } = useTicket();
-  return ticket ? (
+  const [ticketType, setTicketType] = useState();
+  const urlParams = new URLSearchParams(window.location.search);
+  const ticketTypeIp = urlParams.get('id');
+
+  useEffect(() => {
+    setTicketType(ticket?.filter((tickets) => tickets.id === Number(ticketTypeIp))[0]);
+  }, [ticket]);
+  
+  return ticketType ? (
     <TicketTypeContainer>
-      {!ticket?.TicketType?.isRemote ? (
+      {!ticketType.isRemote ? (
         <div>
-          <h1>Presencial + {ticket?.TicketType?.includesHotel ? 'Com Hotel' : 'Sem Hotel'} </h1>
-          <p>R$ {ticket?.TicketType?.price}</p>
+          <h1>Presencial +{ticketType?.includesHotel ? 'Com Hotel' : 'Sem Hotel'}</h1>
+          <p>R$ {ticketType?.price}</p>
         </div>
       ) : (
         <div>
           <h1>Online </h1>
-          <p>R$ {ticket?.TicketType?.price}</p>
+          <p>R$ {ticketType?.price}</p>
         </div>
       )}
     </TicketTypeContainer>
