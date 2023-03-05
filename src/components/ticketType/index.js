@@ -18,6 +18,6 @@ export default function TicketType() {
       )}
     </TicketTypeContainer>
   ) : (
-    <TicketTypeContainer>Escolha a Modalidade de Ingresso e Pagamento</TicketTypeContainer>
+    <TicketTypeContainer> <h1> Escolha a Modalidade de Ingresso e Pagamento</h1></TicketTypeContainer>
   );
 }
