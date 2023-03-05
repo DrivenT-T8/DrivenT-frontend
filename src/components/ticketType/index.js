@@ -11,7 +11,10 @@ export default function TicketType() {
           <p>R$ {ticket.TicketType.price}</p>
         </div>
       ) : (
-        <h1>Online </h1>
+        <div>
+          <h1>Online </h1>
+          <p>R$ {ticket.TicketType.price}</p>
+        </div>
       )}
     </TicketTypeContainer>
   ) : (
