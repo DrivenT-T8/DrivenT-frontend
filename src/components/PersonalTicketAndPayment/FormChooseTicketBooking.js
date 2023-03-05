@@ -9,6 +9,7 @@ export default function FormChooseTicketBooking() {
   const { createTicket } = useCreateTicket();
   const { typeTicketSelected, setTypeTicketSelected } = useContext(TicketContext);
   const [colorButtonSelected, setColorButtonSelected] = useState({});
+  const [selectedId, setSelectedId] = useState([]);
 
   function getTicketTypeAndPrice(e) {
     if (!colorButtonSelected.id) return;
@@ -17,6 +18,40 @@ export default function FormChooseTicketBooking() {
       setTypeTicketSelected([e.name, e.price]);
     }
   }
+
+  let onlineTicket, inPersonTicket;
+
+  if (typeTicket) {
+    const online = typeTicket.filter((t) => t.name === 'Online');
+    const inPerson = typeTicket.filter((t) => !t.includesHotel && !t.isRemote);
+    const inPersonWithHotel = typeTicket.filter((t) => t.includesHotel);
+
+    onlineTicket = {
+      id: online.id,
+      name: online.name,
+      price: online.price / 100,
+    };
+
+    inPersonTicket = {
+      name: inPerson.name,
+      price: inPerson.price / 100,
+      options: [
+        {
+          id: inPerson.id,
+          name: inPerson.name,
+          price: 0,
+        },
+        {
+          id: inPersonWithHotel.id,
+          name: inPersonWithHotel.name,
+          price: inPersonWithHotel.price - inPerson.price / 100,
+        },
+      ],
+    };
+  }
+
+  const ticketOptions = [onlineTicket, inPersonTicket];
+  const hostOptions = inPersonTicket.options;
 
   return (
     <>
@@ -67,10 +102,14 @@ export default function FormChooseTicketBooking() {
       )}
 
       {/* Depois que os TicketsOptions tiverem sido selecionados, aparece esse botão para reservar o ingresso */}
-      <div>
-        <span></span>
-        <button>RESERVAR INGRESSO</button>
-      </div>
+      {selectedId.length !== 0 ? (
+        <div>
+          <span>Fechado! O total ficou em R$ XXX. Agora é só confirmar:</span>
+          <button onClick={() => createTicket(selectedId[0])}>RESERVAR INGRESSO</button>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }
