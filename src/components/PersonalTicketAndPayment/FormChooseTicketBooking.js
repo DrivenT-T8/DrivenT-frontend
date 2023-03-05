@@ -19,12 +19,13 @@ export default function FormChooseTicketBooking() {
     }
   }
 
-  let onlineTicket, inPersonTicket;
+  let onlineTicket;
+  let inPersonTicket;
 
   if (typeTicket) {
-    const online = typeTicket.filter((t) => t.name === 'Online');
-    const inPerson = typeTicket.filter((t) => !t.includesHotel && !t.isRemote);
-    const inPersonWithHotel = typeTicket.filter((t) => t.includesHotel);
+    const online = typeTicket.filter((t) => t.name === 'Online')[0];
+    const inPerson = typeTicket.filter((t) => !t.includesHotel && !t.isRemote)[0];
+    const inPersonWithHotel = typeTicket.filter((t) => t.includesHotel)[0];
 
     onlineTicket = {
       id: online.id,
@@ -33,6 +34,7 @@ export default function FormChooseTicketBooking() {
     };
 
     inPersonTicket = {
+      id: 0,
       name: inPerson.name,
       price: inPerson.price / 100,
       options: [
@@ -59,7 +61,7 @@ export default function FormChooseTicketBooking() {
         <TicketOption>
           <span>Primeiro, escolha sua modalidade de ingresso</span>
           <TicketType>
-            {typeTicket.map((e, index) => (
+            {ticketOptions.map((e, index) => (
               <Button
                 key={index}
                 data-type={e}
@@ -70,7 +72,7 @@ export default function FormChooseTicketBooking() {
                 }}
               >
                 <p>{e.name}</p>
-                <p>R$ {e.price / 100}</p>
+                <p>R$ {e.price}</p>
               </Button>
             ))}
           </TicketType>
@@ -102,7 +104,7 @@ export default function FormChooseTicketBooking() {
       )}
 
       {/* Depois que os TicketsOptions tiverem sido selecionados, aparece esse botão para reservar o ingresso */}
-      {selectedId.length !== 0 ? (
+      {selectedId.length !== 0 && selectedId[0] !== 0 ? (
         <div>
           <span>Fechado! O total ficou em R$ XXX. Agora é só confirmar:</span>
           <button onClick={() => createTicket(selectedId[0])}>RESERVAR INGRESSO</button>
