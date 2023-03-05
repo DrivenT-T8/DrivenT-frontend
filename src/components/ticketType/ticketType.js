@@ -11,6 +11,11 @@ export const TicketTypeContainer = styled.div`
   background: #ffeed2;
   border-radius: 20px;
   margin: 10px 0;
+  div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
   h1 {
     font-family: 'Roboto';
     font-style: normal;

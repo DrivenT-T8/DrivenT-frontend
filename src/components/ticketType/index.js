@@ -1,10 +1,16 @@
+import useTicket from '../../hooks/api/useTicket';
 import { TicketTypeContainer } from './ticketType';
 export default function TicketType() {
-  const tickeType = { isRemote: false, includesHotel: true };
+  const { ticket } = useTicket();
+  console.log(ticket.TicketType);
+  const tickeType = ticket.TicketType;
   return tickeType ? (
     <TicketTypeContainer>
-      {!tickeType.isRemote ? (
-        <h1>Presencial + {tickeType.includesHotel ? 'Com Hotel' : 'Sem Hotel'} </h1>
+      {tickeType.isRemote ? (
+        <div>
+          <h1>Presencial + {tickeType.includesHotel ? 'Com Hotel' : 'Sem Hotel'} </h1>
+          <p>R$ {tickeType.price}</p>
+        </div>
       ) : (
         <h1>Online </h1>
       )}
