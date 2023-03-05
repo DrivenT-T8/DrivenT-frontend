@@ -8,22 +8,13 @@ export default function FormChooseTicketBooking() {
   const { typeTicket } = useTypeTicket();
   const { createTicket } = useCreateTicket();
   const { typeTicketSelected, setTypeTicketSelected } = useContext(TicketContext);
-  const [clickedTicketType, setClickedTicketType] = useState(false);
-  const [colorButtonSelected, setColorButtonSelected] = useState(false);
+  const [colorButtonSelected, setColorButtonSelected] = useState({});
 
   function getTicketTypeAndPrice(e) {
-    setClickedTicketType(true);
-    console.log(colorButtonSelected);
-    console.log(typeTicket);
+    if (!colorButtonSelected.id) return;
 
-    if (e.name === 'Presencial') {
+    if (e.name === 'Presencial' || e.name === 'Online') {
       setTypeTicketSelected([e.name, e.price]);
-      console.log(typeTicket.indexOf(e));
-      setColorButtonSelected(true);
-    } else if (e.name === 'Online') {
-      setTypeTicketSelected([e.name, e.price]);
-      console.log(typeTicket.indexOf(e));
-      setColorButtonSelected(!colorButtonSelected);
     }
   }
 
@@ -34,10 +25,18 @@ export default function FormChooseTicketBooking() {
           <span>Primeiro, escolha sua modalidade de ingresso</span>
           <TicketType>
             {typeTicket.map((e, index) => (
-              <button key={index} colorButtonSelected={colorButtonSelected} onClick={() => getTicketTypeAndPrice(e)}>
+              <Button
+                key={index}
+                data-type={e}
+                isColorButtonSelected={colorButtonSelected.id === e.id}
+                onClick={() => {
+                  getTicketTypeAndPrice(e);
+                  setColorButtonSelected(e);
+                }}
+              >
                 <p>{e.name}</p>
                 <p>R$ {e.price / 100}</p>
-              </button>
+              </Button>
             ))}
           </TicketType>
         </TicketOption>
@@ -45,7 +44,7 @@ export default function FormChooseTicketBooking() {
         ''
       )}
 
-      {typeTicket && clickedTicketType === true ? (
+      {typeTicket && typeTicketSelected[0] === 'Presencial' ? (
         <TicketOption>
           <span>
             Depois EXCLUA essa primeira frase, pfvr, mas aqui mostra o tipo de ticket que você clicou com o preço
@@ -89,28 +88,28 @@ const TicketType = styled.div`
   margin: 17px 0 35px 0;
   display: flex;
   gap: 5%;
+`;
 
-  button {
-    background: ${(props) => (props.colorButtonSelected ? '#FFEED2' : '#FFFFFF')};
+const Button = styled.button`
+  background: ${(props) => (props.isColorButtonSelected ? '#FFEED2' : '#FFFFFF')};
 
-    border: ${(props) => (props.colorButtonSelected ? 'none' : '1px solid #CECECE')};
-    border-radius: 20px;
+  border: ${(props) => (props.isColorButtonSelected ? 'none' : '1px solid #CECECE')};
+  border-radius: 20px;
 
-    height: 145px;
-    width: 145px;
+  height: 145px;
+  width: 145px;
 
-    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    font-weight: 400;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 400;
 
-    cursor: pointer;
-  }
+  cursor: pointer;
 
-  button p:first-of-type {
+  p:first-of-type {
     color: #454545;
     font-size: 16px;
   }
 
-  button p:last-child {
+  p:last-child {
     color: #898989;
     font-size: 14px;
   }
