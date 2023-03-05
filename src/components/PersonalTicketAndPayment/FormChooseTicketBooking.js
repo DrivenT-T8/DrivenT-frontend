@@ -44,16 +44,16 @@ export default function FormChooseTicketBooking() {
           price: 0,
         },
         {
-          id: inPersonWithHotel.id,
-          name: inPersonWithHotel.name,
-          price: (inPersonWithHotel.price - inPerson.price) / 100,
+          id: inPersonWithHotel?.id,
+          name: inPersonWithHotel?.name,
+          price: (inPersonWithHotel?.price - inPerson.price) / 100,
         },
       ],
     };
   }
 
   const ticketOptions = [onlineTicket, inPersonTicket];
-  const hostOptions = inPersonTicket.options;
+  const hostOptions = inPersonTicket?.options;
 
   return (
     <>
