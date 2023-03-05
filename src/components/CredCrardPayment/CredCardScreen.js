@@ -1,56 +1,200 @@
 import styled from 'styled-components';
+import React from 'react';
+import Cards from 'react-credit-cards';
+import  'react-credit-cards/es/styles-compiled.css';
 
-export default function CredCardScreen() {
-  return (
-    <>
-      {/* Depois que escolher a modalidade de ingresso abaixo, abre as opções (ou não, dependendo do tipo de ingresso)do próximo TicketOption */}
+export default class PaymentForm extends React.Component {
+  state = {
+    cvc: '',
+    expiry: '',
+    focus: '',
+    name: '',
+    number: '',
+  };
+
+  handleInputFocus = (e) => {
+    this.setState({ focus: e.target.name });
+  }
+  
+  handleInputChange = (e) => {
+    const { name, value } = e.target;
+    
+    this.setState({ [name]: value });
+  }
+  
+  render() {
+    return (
       <PaymentContainer>
-        <CredCardArea>
-        </CredCardArea>
+        <CardArea id="PaymentForm">
+          <CardContainer>
+            <Cards
+              cvc={this.state.cvc}
+              expiry={this.state.expiry}
+              focused={this.state.focus}
+              name={this.state.name}
+              number={this.state.number}
+            />  
+          </CardContainer>  
+          <Forms>
+            <Number
+              type="tel"
+              name="number"
+              placeholder="Card Number"
+              onChange={this.handleInputChange}
+              onFocus={this.handleInputFocus}
+            />
+            
+            <Exemple>E.g.:49..., 51...,36...,37...</Exemple>
+
+            <Name 
+              type="tel"
+              name="name"
+              placeholder="Name"
+              onChange={this.handleInputChange}
+              onFocus={this.handleInputFocus}
+            />
+            <InfoBottoms>
+              <Expiry
+                type="tel"
+                name="expiry"
+                placeholder="Valaid Trhu"
+                onChange={this.handleInputChange}
+                onFocus={this.handleInputFocus}
+              />
+
+              <Cvc
+                type="tel"
+                name="cvc"
+                placeholder="CVC"
+                onChange={this.handleInputChange}
+                onFocus={this.handleInputFocus}
+              />
+            </InfoBottoms>
+          </Forms>
+        </CardArea>
       </PaymentContainer>
-    </>
-  );
+    );
+  }
 }
 
-const PaymentContainer= styled.div`
-    background-color: bisque;
-
-    > span {
-        color: #8E8E8E;
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-    }
+const PaymentContainer = styled.div`
+    justify-content: space-evenly;
 `;
 
-const CredCardArea = styled.div`
-    margin: 17px 0 35px 0;
+const CardContainer = styled.div`
+`;
+
+const CardArea = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Forms = styled.form` 
+  margin-top: 10px;
+  height: 190px;
+  margin-left: 30px;
+  display:flex;
+  flex-direction:column;
+
+ 
+`;
+
+const Exemple = styled.h3`
+  color: gray;
+  opacity: 0.7;
+  margin-bottom: 13px;
+`;
+
+const Number = styled.input`
+  height:45px;
+  width: 360px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: 400;
+  color: gray;
+
+  ::placeholder{
     display: flex;
-    gap: 5%;
-
-    button {
-        background-color: #FFFFFF;
-
-        border: 1px solid #CECECE;
-        border-radius: 20px;
-
-        height: 145px;
-        width: 145px;
-
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-        font-weight: 400;
-
-        cursor: pointer;
-    }
-
-    button p:first-of-type {
-        color: #454545;
-        font-size: 16px;
-    }
-
-    button p:last-child {
-        color: #898989;
-        font-size: 14px;
-    }
+    color: grey;
+    padding-left: 5px;
+    font-size: 19px;
+    font-weight: 400;
+    opacity: 0.7;
+  }
 `;
 
+const Name = styled.input`
+  height:45px;
+  width: 360px;
+  border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom:13px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: 400;
+  color: gray;
+
+  ::placeholder{
+    color: grey;
+    padding-left: 5px;
+    font-size: 19px;
+    font-weight: 400;
+    opacity: 0.7;
+    padding-top: 5px;
+  }
+`;
+
+const Expiry = styled.input`
+  height:45px;
+  width: 220px;
+  border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: 400;
+  color: gray;
+
+  ::placeholder{
+    color: grey;
+    padding-left: 5px;
+    font-size: 19px;
+    font-weight: 400;
+    opacity: 0.7;
+    padding-top: 5px;
+  }
+`;
+
+const Cvc = styled.input`
+  height:45px;
+  width: 120px;
+  border-radius: 5px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: 400;
+  color: gray;
+
+  ::placeholder{
+    color: grey;
+    padding-left: 5px;
+    font-size: 19px;
+    font-weight: 400;
+    opacity: 0.7;
+    padding-top: 5px;
+  }
+`;
+
+const InfoBottoms = styled.div`
+  height:45px;
+  width: 360px; 
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5;
+  
+`;
