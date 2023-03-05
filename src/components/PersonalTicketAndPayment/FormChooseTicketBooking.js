@@ -46,7 +46,7 @@ export default function FormChooseTicketBooking() {
         {
           id: inPersonWithHotel.id,
           name: inPersonWithHotel.name,
-          price: inPersonWithHotel.price - inPerson.price / 100,
+          price: (inPersonWithHotel.price - inPerson.price) / 100,
         },
       ],
     };
@@ -88,16 +88,22 @@ export default function FormChooseTicketBooking() {
             (coloquei num array, vai ser nessa ordem sempre):{typeTicketSelected}. Ótimo! Agora escolha sua modalidade
             de hospedagem{' '}
           </span>
-          <div>
-            <button>
-              <p>Sem Hotel</p>
-              <p>+ R$ 0</p>
-            </button>
-            <button>
-              <p>Com Hotel</p>
-              <p>+ R$ 350</p>
-            </button>
-          </div>
+          <TicketType>
+            {hostOptions.map((e, index) => (
+              <Button
+                key={index}
+                data-type={e}
+                isColorButtonSelected={colorButtonSelected.id === e.id}
+                onClick={() => {
+                  getTicketTypeAndPrice(e);
+                  setColorButtonSelected(e);
+                }}
+              >
+                <p>{e.name}</p>
+                <p>R$ {e.price}</p>
+              </Button>
+            ))}
+          </TicketType>
         </TicketOption>
       ) : (
         ''
