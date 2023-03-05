@@ -6,22 +6,23 @@ export default function FormChooseTicketBooking() {
   const [showHide, setShowHide] = useState(false);
   const [isHotel, setIsHotel] = useState(false);
   const [noHotel, setNoHotel] = useState(false);
+
   function remote() {
-    if (showHide) setShowHide(false); 
-    if (!showHide) setShowHide(true);  setShowSelect(false);
-    if (!showSelect)  setNoHotel(false); setIsHotel(false); 
-  }
+    if (showHide) setShowHide(false);
+    if (!showHide) setShowHide(true); setShowSelect(false);
+    if (!showSelect) setNoHotel(false); setIsHotel(false);
+  } 
   function isRemote() {
-    if (showSelect) setShowSelect(false); 
-    if (!showSelect) setShowSelect(true); setShowHide(false); 
-    if (!showSelect)  setNoHotel(false);   setIsHotel(false); 
+    if (showSelect) setShowSelect(false);
+    if (!showSelect) setShowSelect(true); setShowHide(false);
+    if (!showSelect) setNoHotel(false); setIsHotel(false);
   }
   function withHotel() {
-    if (!isHotel) setIsHotel(true);  setNoHotel(false);
+    if (!isHotel) setIsHotel(true); setNoHotel(false);
     if (isHotel) setIsHotel(false);
   }
   function hotel() {
-    if (!noHotel) setNoHotel(true);  setIsHotel(false);
+    if (!noHotel) setNoHotel(true); setIsHotel(false);
     if (noHotel) setNoHotel(false);
   }
   return (
@@ -55,12 +56,14 @@ export default function FormChooseTicketBooking() {
           </TicketType>
         </TicketOption>
       ) : (
-        ''
+        null
       )}
-      {showSelect && isHotel || noHotel ||showHide? (
+      {(showSelect && isHotel) || noHotel || showHide ? (
         <div>
           <H1> Fechado! O total ficou em R$ 600. Agora é só confirmar: </H1>
-          <ButtonReservar>RESERVAR INGRESSO</ButtonReservar>
+          <ButtonReservar  onClick={() => alert('Ingresso Reservado com Sucesso')}> 
+            RESERVAR INGRESSO
+          </ButtonReservar>
         </div>
       ) : null}
     </>
