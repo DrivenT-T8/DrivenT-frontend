@@ -2,8 +2,12 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import CredCardScreen from './CredCardScreen';
 import TicketType from '../ticketType';
+import useCreateTicket from '../../hooks/api/useCreateTicket';
+import { useEffect } from 'react';
+import useTicket from '../../hooks/api/useTicket';
 
 export default function PersonalCredcard() {
+
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
