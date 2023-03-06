@@ -13,44 +13,52 @@ import SucessOk from './SucessScreen';
 export default function PersonalCredcard() {
   let ticketId = localStorage.getItem('ticketId');
   ticketId = Number(ticketId);
-  console.log(ticketId);
+
   const [screenOk, setScreenOK] = useState(false);
   const [cardData, setCardData] = useState({
     issuer: '',
     number: '',
     name: '',
-    expirationD: '',
-    cvv: ''
+    expiry: '',
+    cvc: '',
   });
+  let cardValidation = cardData?.name?.length < 2 || cardData?.expiry?.length < 4 || cardData?.number?.length < 16 || cardData?.cvc?.length < 3  ? true : false;
+ 
   const body = { ticketId, cardData };
   const token = useToken();
   async function createPayment(body) {
-    console.log(token);
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     };
     try {
-      const response = await axios.post(
-        'http://localhost:4000/payments/process',
-        body, config
-      );
+      const response = await axios.post('http://localhost:4000/payments/process', body, config);
       toast('Pagamento salvo com sucesso!');
       setScreenOK(true);
+
       return response.data;
     } catch (err) {
       toast('Não foi possível salvar o pagamento!');
     }
   }
-  console.log('a seguir dados do cartao =>', body);
+
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
       <Enroll>
-        <TicketType/>
+        <TicketType />
         <Title>Pagamento</Title>
-        { screenOk? <SucessOk/> : <CardArea><CredCardScreen setData={setCardData} data={cardData} /><FinisheButtom onClick={() => createPayment( body )}>FINALIZAR PAGAMENTO</FinisheButtom></CardArea> }
+        {screenOk ? (
+          <SucessOk />
+        ) : (
+          <CardArea>
+            <CredCardScreen setData={setCardData} data={cardData} />
+            <FinisheButtom disabled={cardValidation} onClick={() => createPayment(body)}>
+              FINALIZAR PAGAMENTO
+            </FinisheButtom>
+          </CardArea>
+        )}
       </Enroll>
     </>
   );
@@ -77,10 +85,11 @@ const FinisheButtom = styled.button`
   height: 37px;
   left: 335px;
   top: 713px;
-  background: #E0E0E0;
+  background: #e0e0e0;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   border: none;
+  cursor: pointer;
 `;
 const Enroll = styled(Typography)`
   display: flex;
