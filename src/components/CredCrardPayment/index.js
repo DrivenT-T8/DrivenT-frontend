@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import CredCardScreen from './CredCardScreen';
+import TicketType from '../ticketType';
 
 export default function PersonalCredcard() {
   return (
@@ -16,11 +17,15 @@ export default function PersonalCredcard() {
         </section>
       </div>
 
-      <CardArea>
-        <Title>Pagamento</Title>
-        <CredCardScreen/>
-      </CardArea>
-      <FinisheButtom>FINALIZAR PAGAMENTO</FinisheButtom>
+      <Enroll>
+        <span>Ingresso escolhido</span>
+        <TicketType/>
+        <CardArea>
+          <Title>Pagamento</Title>
+          <CredCardScreen/>
+        </CardArea>
+        <FinisheButtom>FINALIZAR PAGAMENTO</FinisheButtom>
+      </Enroll>
     </>
   );
 }
@@ -37,7 +42,7 @@ const Title = styled.h3`
 const CardArea = styled.h3`
   color: grey;
   margin-bottom: 12px;
-  margin-top: 210px;
+  margin-top: 10px;
 `;
 
 const FinisheButtom = styled.button`
@@ -51,3 +56,8 @@ const FinisheButtom = styled.button`
   border-radius: 4px;
   border: none;
 `;
+const Enroll = styled(Typography)`
+  display: flex;
+  flex-direction:column;
+`;
+

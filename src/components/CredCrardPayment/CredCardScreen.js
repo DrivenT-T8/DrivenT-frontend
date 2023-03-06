@@ -77,8 +77,15 @@ export default class PaymentForm extends React.Component {
   }
 }
 
-const PaymentContainer = styled.div`
-    justify-content: space-evenly;
+const PaymentContainer= styled.div`
+    //background-color: bisque;
+
+    > span {
+        color: #8E8E8E;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        font-weight: 400;
+        font-size: 20px;
+    }
 `;
 
 const CardContainer = styled.div`
