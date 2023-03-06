@@ -47,15 +47,7 @@ export default function PersonalCredcard() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      {/* Se tiver inscrição, vai aparecer essa primeira div abaixo para escolher o ticket e hotel, se não, vai aparecer a última section com a mensagem que não tem inscrição ainda */}
-      <div>
-        {/* Depois que apertar no botão de reservar ingresso do form de cima, vai aparecer essa section abaixo na tela para o pagamento */}
-        <section>
-          <div>{/* DESKTOP 6 E 7 DO FIGMA */}</div>
-        </section>
-      </div>
       <Enroll>
-        <span>Ingresso escolhido</span>
         <TicketType/>
         <Title>Pagamento</Title>
         { screenOk? <SucessOk/> : <CardArea><CredCardScreen setData={setCardData} data={cardData} /><FinisheButtom onClick={() => createPayment( body )}>FINALIZAR PAGAMENTO</FinisheButtom></CardArea> }
