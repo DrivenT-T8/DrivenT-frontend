@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import Cards from 'react-credit-cards';
-import  'react-credit-cards/es/styles-compiled.css';
+import 'react-credit-cards/es/styles-compiled.css';
 
 export default class PaymentForm extends React.Component {
   state = {
@@ -12,22 +12,17 @@ export default class PaymentForm extends React.Component {
     name: '',
     number: '',
   };
-
-  handleCallback = ({ issuer }, isValid) => {
-    console.log( issuer, 'teste' );
-    this.props.setData(this.state.issuer = issuer);
-  }
-
+  
   handleInputFocus = (e) => {
     this.setState({ focus: e.target.name });
-  }
-  
+  };
+
   handleInputChange = (e) => {
     const { name, value } = e.target;
     this.setState({ ...this.state, [name]: value });
     this.props.setData({ ...this.state, [name]: value });
-  }
-  
+  };
+
   render() {
     return (
       <PaymentContainer>
@@ -40,10 +35,10 @@ export default class PaymentForm extends React.Component {
               name={this.state.name}
               number={this.state.number}
               callback={this.handleCallback}
-            />  
-          </CardContainer>  
+            />
+          </CardContainer>
           <Forms>
-            <input type='hidden' name='issuer' value={this.issuer} />
+            <input type="hidden" name="issuer" value={this.issuer} />
             <Number
               type="tel"
               name="number"
@@ -51,10 +46,10 @@ export default class PaymentForm extends React.Component {
               onChange={this.handleInputChange}
               onFocus={this.handleInputFocus}
             />
-            
+
             <Exemple>E.g.:49..., 51...,36...,37...</Exemple>
 
-            <Name 
+            <Name
               type="tel"
               name="name"
               placeholder="Name"
@@ -85,31 +80,30 @@ export default class PaymentForm extends React.Component {
   }
 }
 
-const PaymentContainer= styled.div`
-    //background-color: bisque;
+const PaymentContainer = styled.div`
+  //background-color: bisque;
 
-    > span {
-        color: #8E8E8E;
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-        font-weight: 400;
-        font-size: 20px;
-    }
+  > span {
+    color: #8e8e8e;
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+  }
 `;
 
-const CardContainer = styled.div`
-`;
+const CardContainer = styled.div``;
 
 const CardArea = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const Forms = styled.form` 
+const Forms = styled.form`
   margin-top: 10px;
   height: 190px;
   margin-left: 30px;
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Exemple = styled.h3`
@@ -119,7 +113,7 @@ const Exemple = styled.h3`
 `;
 
 const Number = styled.input`
-  height:45px;
+  height: 45px;
   width: 360px;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -129,7 +123,7 @@ const Number = styled.input`
   font-weight: 400;
   color: gray;
 
-  ::placeholder{
+  ::placeholder {
     display: flex;
     color: grey;
     padding-left: 5px;
@@ -140,18 +134,18 @@ const Number = styled.input`
 `;
 
 const Name = styled.input`
-  height:45px;
+  height: 45px;
   width: 360px;
   border-radius: 5px;
   border-radius: 5px;
-  margin-bottom:13px;
+  margin-bottom: 13px;
   border: 1px solid gray;
   padding-left: 10px;
   font-size: 19px;
   font-weight: 400;
   color: gray;
 
-  ::placeholder{
+  ::placeholder {
     color: grey;
     padding-left: 5px;
     font-size: 19px;
@@ -162,7 +156,7 @@ const Name = styled.input`
 `;
 
 const Expiry = styled.input`
-  height:45px;
+  height: 45px;
   width: 220px;
   border-radius: 5px;
   border-radius: 5px;
@@ -172,7 +166,7 @@ const Expiry = styled.input`
   font-weight: 400;
   color: gray;
 
-  ::placeholder{
+  ::placeholder {
     color: grey;
     padding-left: 5px;
     font-size: 19px;
@@ -183,7 +177,7 @@ const Expiry = styled.input`
 `;
 
 const Cvc = styled.input`
-  height:45px;
+  height: 45px;
   width: 120px;
   border-radius: 5px;
   border-radius: 5px;
@@ -193,7 +187,7 @@ const Cvc = styled.input`
   font-weight: 400;
   color: gray;
 
-  ::placeholder{
+  ::placeholder {
     color: grey;
     padding-left: 5px;
     font-size: 19px;
@@ -204,10 +198,9 @@ const Cvc = styled.input`
 `;
 
 const InfoBottoms = styled.div`
-  height:45px;
-  width: 360px; 
+  height: 45px;
+  width: 360px;
   display: flex;
   justify-content: space-between;
   border-radius: 5;
-  
 `;
