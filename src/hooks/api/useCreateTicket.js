@@ -7,14 +7,14 @@ export default function useCreateTicket() {
   const token = useToken();
 
   const {
+    data: dados,
     loading: saveTicketLoading,
     error: saveTicketError,
     act: saveTicket,
-  } = useAsync((data) => 
-    ticketApi.createTicket(data, token)
-  , false);
+  } = useAsync((data) => ticketApi.createTicket(data, token), false);
 
   return {
+    dados,
     saveTicketLoading,
     saveTicketError,
     saveTicket,

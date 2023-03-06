@@ -5,6 +5,7 @@ import  'react-credit-cards/es/styles-compiled.css';
 
 export default class PaymentForm extends React.Component {
   state = {
+    issuer: '',
     cvc: '',
     expiry: '',
     focus: '',
@@ -12,14 +13,19 @@ export default class PaymentForm extends React.Component {
     number: '',
   };
 
+  handleCallback = ({ issuer }, isValid) => {
+    console.log( issuer, 'teste' );
+    this.props.setData(this.state.issuer = issuer);
+  }
+
   handleInputFocus = (e) => {
     this.setState({ focus: e.target.name });
   }
   
   handleInputChange = (e) => {
     const { name, value } = e.target;
-    
-    this.setState({ [name]: value });
+    this.setState({ ...this.state, [name]: value });
+    this.props.setData({ ...this.state, [name]: value });
   }
   
   render() {
@@ -33,9 +39,11 @@ export default class PaymentForm extends React.Component {
               focused={this.state.focus}
               name={this.state.name}
               number={this.state.number}
+              callback={this.handleCallback}
             />  
           </CardContainer>  
           <Forms>
+            <input type='hidden' name='issuer' value={this.issuer} />
             <Number
               type="tel"
               name="number"
@@ -102,8 +110,6 @@ const Forms = styled.form`
   margin-left: 30px;
   display:flex;
   flex-direction:column;
-
- 
 `;
 
 const Exemple = styled.h3`

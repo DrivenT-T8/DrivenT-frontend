@@ -3,11 +3,47 @@ import Typography from '@material-ui/core/Typography';
 import CredCardScreen from './CredCardScreen';
 import TicketType from '../ticketType';
 import useCreateTicket from '../../hooks/api/useCreateTicket';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useTicket from '../../hooks/api/useTicket';
+import axios from 'axios';
+import useToken from '../../hooks/useToken';
+import { toast } from 'react-toastify';
+import SucessOk from './SucessScreen';
 
 export default function PersonalCredcard() {
-
+  let ticketId = localStorage.getItem('ticketId');
+  ticketId = Number(ticketId);
+  console.log(ticketId);
+  const [screenOk, setScreenOK] = useState(false);
+  const [cardData, setCardData] = useState({
+    issuer: '',
+    number: '',
+    name: '',
+    expirationD: '',
+    cvv: ''
+  });
+  const body = { ticketId, cardData };
+  const token = useToken();
+  async function createPayment(body) {
+    console.log(token);
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/payments/process',
+        body, config
+      );
+      toast('Pagamento salvo com sucesso!');
+      setScreenOK(true);
+      return response.data;
+    } catch (err) {
+      toast('Não foi possível salvar o pagamento!');
+    }
+  }
+  console.log('a seguir dados do cartao =>', body);
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -15,27 +51,21 @@ export default function PersonalCredcard() {
       <div>
         {/* Depois que apertar no botão de reservar ingresso do form de cima, vai aparecer essa section abaixo na tela para o pagamento */}
         <section>
-          <div>
-            {/* DESKTOP 6 E 7 DO FIGMA */}
-          </div>
+          <div>{/* DESKTOP 6 E 7 DO FIGMA */}</div>
         </section>
       </div>
-
       <Enroll>
         <span>Ingresso escolhido</span>
         <TicketType/>
-        <CardArea>
-          <Title>Pagamento</Title>
-          <CredCardScreen/>
-        </CardArea>
-        <FinisheButtom>FINALIZAR PAGAMENTO</FinisheButtom>
+        <Title>Pagamento</Title>
+        { screenOk? <SucessOk/> : <CardArea><CredCardScreen setData={setCardData} data={cardData} /><FinisheButtom onClick={() => createPayment( body )}>FINALIZAR PAGAMENTO</FinisheButtom></CardArea> }
       </Enroll>
     </>
   );
 }
 
 const StyledTypography = styled(Typography)`
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 `;
 
 const Title = styled.h3`
@@ -62,6 +92,5 @@ const FinisheButtom = styled.button`
 `;
 const Enroll = styled(Typography)`
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 `;
-

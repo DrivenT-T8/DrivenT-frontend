@@ -1,10 +1,11 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
-import TicketContext from '../../contexts/TicketContext';
+import TicketContext, { TicketProvider } from '../../contexts/TicketContext';
 import useTypeTicket from '../../hooks/api/useTypeTicket';
 import useCreateTicket from '../../hooks/api/useCreateTicket';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
 export default function FormChooseTicketBooking() {
   const { typeTicket } = useTypeTicket();
   const { saveTicket, dados } = useCreateTicket();
@@ -13,20 +14,20 @@ export default function FormChooseTicketBooking() {
   const [selectedId, setSelectedId] = useState([]);
   const [typeTicketInPerson, setTypeTicketInPerson] = useState([]);
   const [colorButtonSubSelected, setColorButtonSubSelected] = useState({});
-  const navigate = useNavigate();
-  
 
+  const navigate = useNavigate();
   async function createTicket(id) {
     try {
       const data = { ticketTypeId: id };
       await saveTicket(data);
-      
       toast('Ticket salvo com sucesso!');
       navigate(`/dashboard/credcard?id=${selectedId[0]}`);
     } catch (err) {
       toast('Não foi possível salvar o ticket!');
     }
   }
+  localStorage.setItem('ticketId', dados?.id);
+
   function getTicketTypeAndPrice(e) {
     if (e.name === 'Presencial') {
       setSelectedId([]);
