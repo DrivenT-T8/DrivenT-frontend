@@ -21,7 +21,7 @@ export async function createTicket(body, token) {
 }
 
 export async function getTicket(token) {
-  const response = await api.get('/tickets', {
+  const response = await api.get('/tickets/types', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
