@@ -16,12 +16,12 @@ export default function TicketType() {
       {!ticketType.isRemote ? (
         <div>
           <h1>Presencial +{ticketType?.includesHotel ? 'Com Hotel' : 'Sem Hotel'}</h1>
-          <p>R$ {ticketType?.price}</p>
+          <p>R$ {ticketType?.price / 100}</p>
         </div>
       ) : (
         <div>
           <h1>Online </h1>
-          <p>R$ {ticketType?.price}</p>
+          <p>R$ {ticketType?.price / 100}</p>
         </div>
       )}
     </TicketTypeContainer>
