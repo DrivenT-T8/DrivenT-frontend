@@ -4,11 +4,11 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 export default function EditRoom() {
   const [edit, setEdit] = useState(false);
-   
+
   const { saveRoom, dados } = useUpdateRoom();
   async function putRoom() {
     try {
-      const data = { roomId: 6, bookingId: 1 };
+      const data = { roomId: 10, bookingId: 1 };
       await saveRoom(data);
       toast('Ticket salvo com sucesso!');
       setEdit(false);
@@ -16,23 +16,14 @@ export default function EditRoom() {
       toast('Não foi possível salvar o ticket!');
     }
   }
-  {
-  }
-  
   return !edit ? (
-    <EditTeste
-      onClick={() => {
-        setEdit(true);
-      }}
-    >
-      TROCAR DE QUARTO
-    </EditTeste>
+    <ChangeRoom onClick={() => setEdit(true)}>TROCAR DE QUARTO</ChangeRoom>
   ) : (
-    <EditButton onClick={putRoom}>RESERVAR DE QUARTO</EditButton>
+    <BookRoom onClick={putRoom}>RESERVAR DE QUARTO</BookRoom>
   );
 }
 
-export const EditButton = styled.button`
+export const BookRoom = styled.button`
   width: 182px;
   height: 37px;
   left: 355px;
@@ -44,7 +35,7 @@ export const EditButton = styled.button`
   cursor: pointer;
 `;
 
-export const EditTeste = styled(EditButton)`
+export const ChangeRoom = styled(BookRoom)`
   background: #000;
   color: #fff;
 `;
