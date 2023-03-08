@@ -17,6 +17,6 @@ export default function useTicket() {
     ticket,
     ticketLoading,
     ticketError,
-    getTicket
+    getTicket,
   };
 }
