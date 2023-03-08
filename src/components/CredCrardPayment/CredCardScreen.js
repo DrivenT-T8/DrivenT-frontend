@@ -40,7 +40,8 @@ export default class PaymentForm extends React.Component {
           <Forms>
             <input type="hidden" name="issuer" value={this.issuer} />
             <Number
-              type="tel"
+              maxLength={16}
+              minLength={16}
               name="number"
               placeholder="Card Number"
               onChange={this.handleInputChange}
@@ -58,6 +59,7 @@ export default class PaymentForm extends React.Component {
             />
             <InfoBottoms>
               <Expiry
+                maxLength={4}
                 type="tel"
                 name="expiry"
                 placeholder="Valaid Trhu"
@@ -66,7 +68,8 @@ export default class PaymentForm extends React.Component {
               />
 
               <Cvc
-                type="tel"
+                maxLength={3}
+                typeof="number"
                 name="cvc"
                 placeholder="CVC"
                 onChange={this.handleInputChange}
