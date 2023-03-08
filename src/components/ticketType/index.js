@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import useTicket from '../../hooks/api/useTicket';
 import useTypeTicket from '../../hooks/api/useTypeTicket';
 import { TicketTypeContainer } from './ticketType';
 export default function TicketType() {
