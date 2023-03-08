@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import useTicket from '../../hooks/api/useTicket';
+import useTypeTicket from '../../hooks/api/useTypeTicket';
 import { TicketTypeContainer } from './ticketType';
 export default function TicketType() {
-  const { ticket } = useTicket();
+  const { typeTicket } = useTypeTicket();
   const [ticketType, setTicketType] = useState();
   const urlParams = new URLSearchParams(window.location.search);
   const ticketTypeIp = urlParams.get('id');
 
   useEffect(() => {
-    setTicketType(ticket?.filter((tickets) => tickets.id === Number(ticketTypeIp))[0]);
-  }, [ticket]);
-  
+    setTicketType(typeTicket?.filter((tickets) => tickets.id === Number(ticketTypeIp))[0]);
+  }, [typeTicket]);
+
   return ticketType ? (
     <TicketTypeContainer>
       {!ticketType.isRemote ? (
