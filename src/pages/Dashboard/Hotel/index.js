@@ -1,5 +1,5 @@
-import EditRoom from '../../../components/editRoom/editRoom';
+import HotelComponents from '../../../components/HotelComponents';
 
 export default function Hotel() {
-  return <EditRoom />;
+  return <HotelComponents />;
 }
