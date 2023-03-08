@@ -1,18 +1,14 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import ChooseRoom from './ChooseRoom';
+import { useState } from 'react';
 
 export default function HotelComponents() {
   return (
     <>
-      <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
+      <StyledTypography variant="h4">Choose Hotel</StyledTypography>
 
-      <div>
-        <section>
-          <div>
-            <span>Ingresso escolhido</span>
-          </div>
-        </section>
-      </div>
+      <ChooseRoom />
     </>
   );
 }
