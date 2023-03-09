@@ -39,7 +39,7 @@ export default function ChooseRoom({ EditInformation }) {
       } else {
         const data = { roomId: id, bookingId: bookingId };
         await saveRoom(data);
-        toast('Reserva Trocada com sucesso!');
+        toast('Quarto Trocado com sucesso!');
         setEdit(false);
       }
     } catch (err) {
