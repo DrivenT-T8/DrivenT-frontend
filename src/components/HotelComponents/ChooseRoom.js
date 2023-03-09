@@ -116,7 +116,7 @@ const ContainerRoom = styled.div`
   }
 `;
 
-const SendRoom = styled.div`
+export const SendRoom = styled.div`
   display: flex;
   flex-direction: column;
   > button {
