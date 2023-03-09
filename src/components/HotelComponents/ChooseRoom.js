@@ -5,10 +5,12 @@ import { IoMdPerson } from 'react-icons/io';
 import { useEffect, useState } from 'react';
 import { getHotel } from '../../services/hotelApi';
 import useToken from '../../hooks/useToken';
+import { toast } from 'react-toastify';
+import { saveBooking } from '../../services/bookingApi';
 
 export default function ChooseRoom() {
   // a variável de estado abaixo guarda o id do quarto clicado
-  const [buttonClickedId, setButtonClickedId] = useState('');
+  const [buttonClickedId, setButtonClickedId] = useState([]);
   const [listRooms, setListRoom] = useState([]);
   const token = useToken();
   useEffect(() => {
@@ -17,13 +19,24 @@ export default function ChooseRoom() {
       setListRoom(res[0].Rooms);
     });
   }, []);
+
+  async function createBooking(id) {
+    try {
+      const data = { roomId: id };
+      await saveBooking(data, token);
+      toast('Reserva realizada com sucesso!');
+    } catch (err) {
+      toast('Não foi possível realizar a reserva!');
+    }
+  }
+
   function vacancy(cap, booking, id) {
     const listVacancies = [];
     while (cap > 0) {
       if (cap > booking) {
         if (cap - 1 === booking) {
           listVacancies.push(
-            buttonClickedId === id ? (
+            buttonClickedId[0] === id ? (
               <IoMdPerson key={cap} fontSize={22} color="#FF4791" />
             ) : (
               <BsPerson key={cap} fontSize={22} />
@@ -52,8 +65,8 @@ export default function ChooseRoom() {
                   <ButtonRoom
                     key={index}
                     disabled={e.capacity === e.booking}
-                    isButtonClicked={buttonClickedId === e.id}
-                    onClick={() => setButtonClickedId(e.id)}
+                    isButtonClicked={buttonClickedId[0] === e.id}
+                    onClick={() => setButtonClickedId([e.id])}
                   >
                     <h2>{e.name}</h2>
                     <Vacancies>{listVacancies.map((e) => e)}</Vacancies>
@@ -62,6 +75,13 @@ export default function ChooseRoom() {
               })
             : ''}
         </Rooms>
+        {buttonClickedId.length > 0 ? (
+          <SendRoom>
+            <button onClick={() => createBooking(buttonClickedId[0])}>RESERVAR QUARTO</button>
+          </SendRoom>
+        ) : (
+          ''
+        )}
       </ContainerRoom>
     </>
   );
@@ -75,6 +95,29 @@ const ContainerRoom = styled.div`
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 20px;
+  }
+`;
+
+const SendRoom = styled.div`
+  display: flex;
+  flex-direction: column;
+  > button {
+    cursor: pointer;
+    border: none;
+    margin-top: 20px;
+    width: 162px;
+    height: 37px;
+    background: #e0e0e0;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+
+    color: #000000;
   }
 `;
 
