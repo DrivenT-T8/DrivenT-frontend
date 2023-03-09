@@ -1,29 +1,19 @@
 import styled from 'styled-components';
 import useUpdateRoom from '../../hooks/api/useUpdateRoom';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ChooseRoom from '../HotelComponents/ChooseRoom';
+import TicketContext from '../../contexts/TicketContext';
 export default function EditRoom() {
-  const [edit, setEdit] = useState(false);
-
-  const { saveRoom, dados } = useUpdateRoom();
-  async function putRoom() {
-    try {
-      const data = { roomId: 10, bookingId: 1 };
-      await saveRoom(data);
-      toast('Ticket salvo com sucesso!');
-      setEdit(false);
-    } catch (err) {
-      toast('Não foi possível salvar o ticket!');
-    }
-  }
+  const { edit, setEdit } = useContext(TicketContext);
+  const data = { bookingId: '57' };
   return !edit ? (
     <ChangeRoom onClick={() => setEdit(true)}>TROCAR DE QUARTO</ChangeRoom>
   ) : (
-    <BookRoom onClick={putRoom}>RESERVAR DE QUARTO</BookRoom>
+    <ChooseRoom EditInformation={data} />
   );
 }
 
-export const BookRoom = styled.button`
+export const ChangeRoom = styled.button`
   width: 182px;
   height: 37px;
   left: 355px;
@@ -33,9 +23,4 @@ export const BookRoom = styled.button`
   border-radius: 4px;
   border: none;
   cursor: pointer;
-`;
-
-export const ChangeRoom = styled(BookRoom)`
-  background: #000;
-  color: #fff;
 `;
