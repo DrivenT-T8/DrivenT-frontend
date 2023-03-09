@@ -5,7 +5,7 @@ import ChooseRoom from '../HotelComponents/ChooseRoom';
 import TicketContext from '../../contexts/TicketContext';
 export default function EditRoom() {
   const { edit, setEdit } = useContext(TicketContext);
-  const data = { bookingId: '57' };
+  const data = { editPermission: true };
   return !edit ? (
     <ChangeRoom onClick={() => setEdit(true)}>TROCAR DE QUARTO</ChangeRoom>
   ) : (
