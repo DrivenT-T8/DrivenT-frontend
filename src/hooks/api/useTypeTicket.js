@@ -10,13 +10,13 @@ export default function useTypeTicket() {
     data: typeTicket,
     loading: typeTicketLoading,
     error: typeTicketError,
-    act: getTicketType
-  } = useAsync(() => ticketApi.getTicketsType(token));
+    act: getTicketType,
+  } = useAsync(() => ticketApi.tsType(token));
 
   return {
     typeTicket,
     typeTicketLoading,
     typeTicketError,
-    getTicketType
+    getTicketType,
   };
 }
