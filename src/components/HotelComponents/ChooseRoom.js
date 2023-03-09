@@ -13,10 +13,10 @@ import { useContext } from 'react';
 import TicketContext from '../../contexts/TicketContext';
 export default function ChooseRoom({ EditInformation }) {
   // a variável de estado abaixo guarda o id do quarto clicado
-  const showEditInformation = EditInformation?.bookingId;
+  const showEditInformation = EditInformation?.editPermission;
   const [buttonClickedId, setButtonClickedId] = useState([]);
   const [listRooms, setListRoom] = useState([]);
-  const { edit, setEdit, bookingId, setBooking } = useContext(TicketContext);
+  const { edit, setEdit } = useContext(TicketContext);
   const { saveRoom } = useUpdateRoom();
   const navigate = useNavigate();
   const token = useToken();
@@ -26,17 +26,18 @@ export default function ChooseRoom({ EditInformation }) {
       setListRoom(res[0].Rooms);
     });
   }, []);
-   
-  async function createBooking(id, showEditInformation, bookingId) {
+  async function createBooking(id, showEditInformation) {
     try {
       if (!showEditInformation) {
         const data = { roomId: id };
-        const booking = await saveBooking(data, token);
-        setBooking(booking.bookingId);
+        const bookingId = await saveBooking(data, token);
         toast('Reserva realizada com sucesso!');
+        localStorage.setItem('bookingId', bookingId.bookingId);
         setEdit(false);
         return navigate('/dashboard/booking');
       } else {
+        let bookingId = localStorage.getItem('bookingId');
+        bookingId = Number(bookingId);
         const data = { roomId: id, bookingId: bookingId };
         await saveRoom(data);
         toast('Reserva Trocada com sucesso!');
@@ -94,9 +95,7 @@ export default function ChooseRoom({ EditInformation }) {
         </Rooms>
         {buttonClickedId.length > 0 ? (
           <SendRoom>
-            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation, bookingId)}>
-              RESERVAR QUARTO
-            </button>
+            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation)}>RESERVAR QUARTO</button>
           </SendRoom>
         ) : (
           ''
