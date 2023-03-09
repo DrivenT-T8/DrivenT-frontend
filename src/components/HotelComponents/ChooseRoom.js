@@ -1,68 +1,66 @@
+/* eslint-disable indent */
 import styled from 'styled-components';
 import { BsPerson } from 'react-icons/bs';
 import { IoMdPerson } from 'react-icons/io';
-import { useEffect } from 'react';
-import useHotel from '../../hooks/api/useHotel';
+import { useEffect, useState } from 'react';
+import { getHotel } from '../../services/hotelApi';
+import useToken from '../../hooks/useToken';
 
 export default function ChooseRoom() {
-  // const [buttonClickedId, setButtonClickedId] = useState(false);
-  const { getHotel } = useHotel();
+  // a variável de estado abaixo guarda o id do quarto clicado
+  const [buttonClickedId, setButtonClickedId] = useState('');
+  const [listRooms, setListRoom] = useState([]);
+  const token = useToken();
   useEffect(() => {
-    getHotel(1).then((res) => {
-      console.log(res);
+    // O número 1 é um dado para exemplificar o hotelId
+    getHotel(1, token).then((res) => {
+      setListRoom(res[0].Rooms);
     });
   }, []);
+  function vacancy(cap, booking, id) {
+    const listVacancies = [];
+    while (cap > 0) {
+      if (cap > booking) {
+        if (cap - 1 === booking) {
+          listVacancies.push(
+            buttonClickedId === id ? (
+              <IoMdPerson key={cap} fontSize={22} color="#FF4791" />
+            ) : (
+              <BsPerson key={cap} fontSize={22} />
+            )
+          );
+        } else {
+          listVacancies.push(<BsPerson key={cap} fontSize={22} />);
+        }
+      } else {
+        listVacancies.push(<IoMdPerson key={cap} fontSize={22} />);
+      }
+      cap -= 1;
+    }
+    return listVacancies;
+  }
 
   return (
     <>
       <ContainerRoom>
         <span>Ótima pedida! Agora escolha seu quarto</span>
         <Rooms>
-          {/* <ButtonRoom key={e.id} isButtonClicked={buttonClickedId === e.id} onClick={() => setButtonClickedId(e.id)}>
-            <h2>144</h2>
-            <Vacancies>
-              <BsPerson fontSize={22} />
-              <BsPerson fontSize={22} />
-              <BsPerson fontSize={22} />
-            </Vacancies>
-          </ButtonRoom> */}
-          <ButtonRoom isButtonClicked={true}>
-            <h2>144</h2>
-            <Vacancies>
-              <BsPerson fontSize={22} />
-              <IoMdPerson fontSize={22} color="#FF4791" />
-            </Vacancies>
-          </ButtonRoom>
-          <ButtonRoom>
-            <h2>144</h2>
-            <Vacancies>
-              <BsPerson fontSize={22} />
-              <IoMdPerson fontSize={22} color="#FF4791" />
-              <IoMdPerson fontSize={22} />
-            </Vacancies>
-          </ButtonRoom>
-          <ButtonRoom disabled={true}>
-            <h2>144</h2>
-            <Vacancies>
-              <IoMdPerson fontSize={22} />
-              <IoMdPerson fontSize={22} />
-            </Vacancies>
-          </ButtonRoom>
-          <ButtonRoom>
-            <h2>144</h2>
-            <Vacancies>
-              <BsPerson fontSize={22} />
-              <IoMdPerson fontSize={22} />
-            </Vacancies>
-          </ButtonRoom>
-          <ButtonRoom>
-            <h2>144</h2>
-            <Vacancies>
-              <BsPerson fontSize={22} />
-              <BsPerson fontSize={22} />
-              <IoMdPerson fontSize={22} />
-            </Vacancies>
-          </ButtonRoom>
+          {listRooms.length > 0
+            ? listRooms.map((e, index) => {
+                const listVacancies = vacancy(e.capacity, e.booking, e.id);
+                return (
+                  <ButtonRoom
+                    key={index}
+                    disabled={e.capacity === e.booking}
+                    isButtonClicked={buttonClickedId === e.id}
+                    onClick={() => setButtonClickedId(e.id)}
+                  >
+                    <h2>{e.name}</h2>
+                    <Vacancies>{listVacancies.map((e) => e)}</Vacancies>
+                  </ButtonRoom>
+                );
+              })
+            : ''}
         </Rooms>
       </ContainerRoom>
     </>
