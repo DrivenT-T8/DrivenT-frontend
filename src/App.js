@@ -17,6 +17,7 @@ import { UserProvider } from './contexts/UserContext';
 import { TicketProvider } from './contexts/TicketContext';
 
 import useToken from './hooks/useToken';
+import BookingInformation from './pages/Dashboard/Booking';
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
                   <Route path="payment" element={<Payment />} />
                   <Route path="credcard" element={<CredCard />} />
                   <Route path="hotel" element={<Hotel />} />
+                  <Route path="booking" element={<BookingInformation />} />
                   <Route path="activities" element={<Activities />} />
                   <Route path="certificate" element={<Certificate />} />
                   <Route index path="*" element={<Navigate to="/dashboard/subscription" />} />

@@ -7,11 +7,18 @@ import { getHotel } from '../../services/hotelApi';
 import useToken from '../../hooks/useToken';
 import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
-
-export default function ChooseRoom() {
+import { useNavigate } from 'react-router-dom';
+import useUpdateRoom from '../../hooks/api/useUpdateRoom';
+import { useContext } from 'react';
+import TicketContext from '../../contexts/TicketContext';
+export default function ChooseRoom({ EditInformation }) {
   // a variável de estado abaixo guarda o id do quarto clicado
+  const showEditInformation = EditInformation?.bookingId;
   const [buttonClickedId, setButtonClickedId] = useState([]);
   const [listRooms, setListRoom] = useState([]);
+  const { edit, setEdit, bookingId, setBooking } = useContext(TicketContext);
+  const { saveRoom } = useUpdateRoom();
+  const navigate = useNavigate();
   const token = useToken();
   useEffect(() => {
     // O número 1 é um dado para exemplificar o hotelId
@@ -19,12 +26,22 @@ export default function ChooseRoom() {
       setListRoom(res[0].Rooms);
     });
   }, []);
-
-  async function createBooking(id) {
+   
+  async function createBooking(id, showEditInformation, bookingId) {
     try {
-      const data = { roomId: id };
-      await saveBooking(data, token);
-      toast('Reserva realizada com sucesso!');
+      if (!showEditInformation) {
+        const data = { roomId: id };
+        const booking = await saveBooking(data, token);
+        setBooking(booking.bookingId);
+        toast('Reserva realizada com sucesso!');
+        setEdit(false);
+        return navigate('/dashboard/booking');
+      } else {
+        const data = { roomId: id, bookingId: bookingId };
+        await saveRoom(data);
+        toast('Reserva Trocada com sucesso!');
+        setEdit(false);
+      }
     } catch (err) {
       toast('Não foi possível realizar a reserva!');
     }
@@ -77,7 +94,9 @@ export default function ChooseRoom() {
         </Rooms>
         {buttonClickedId.length > 0 ? (
           <SendRoom>
-            <button onClick={() => createBooking(buttonClickedId[0])}>RESERVAR QUARTO</button>
+            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation, bookingId)}>
+              RESERVAR QUARTO
+            </button>
           </SendRoom>
         ) : (
           ''
