@@ -8,15 +8,31 @@ import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
 
 export default function ChooseRoom({ listRooms }) {
+
   // a variável de estado abaixo guarda o id do quarto clicado
+  const showEditInformation = EditInformation?.editPermission;
   const [buttonClickedId, setButtonClickedId] = useState([]);
+
   const token = useToken();
 
   async function createBooking(id) {
+
     try {
-      const data = { roomId: id };
-      await saveBooking(data, token);
-      toast('Reserva realizada com sucesso!');
+      if (!showEditInformation) {
+        const data = { roomId: id };
+        const bookingId = await saveBooking(data, token);
+        toast('Reserva realizada com sucesso!');
+        localStorage.setItem('bookingId', bookingId.bookingId);
+        setEdit(false);
+        return navigate('/dashboard/booking');
+      } else {
+        let bookingId = localStorage.getItem('bookingId');
+        bookingId = Number(bookingId);
+        const data = { roomId: id, bookingId: bookingId };
+        await saveRoom(data);
+        toast('Reserva Trocada com sucesso!');
+        setEdit(false);
+      }
     } catch (err) {
       toast('Não foi possível realizar a reserva!');
     }
@@ -69,7 +85,7 @@ export default function ChooseRoom({ listRooms }) {
         </Rooms>
         {buttonClickedId.length > 0 ? (
           <SendRoom>
-            <button onClick={() => createBooking(buttonClickedId[0])}>RESERVAR QUARTO</button>
+            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation)}>RESERVAR QUARTO</button>
           </SendRoom>
         ) : (
           ''
@@ -90,7 +106,7 @@ const ContainerRoom = styled.div`
   }
 `;
 
-const SendRoom = styled.div`
+export const SendRoom = styled.div`
   display: flex;
   flex-direction: column;
   > button {

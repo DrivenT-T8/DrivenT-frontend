@@ -20,6 +20,20 @@ export async function createTicket(body, token) {
   return response.data;
 }
 
+export async function updateRoom(body, token) {
+  const { roomId, bookingId } = body;
+ 
+  const response = await api.put(`/booking/${bookingId}`, { roomId: roomId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return response.data;
+}
+
 export async function getTicket(token) {
   const response = await api.get('tickets', {
     headers: {
@@ -29,4 +43,3 @@ export async function getTicket(token) {
 
   return response.data;
 }
-

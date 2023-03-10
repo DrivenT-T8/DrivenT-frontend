@@ -10,6 +10,7 @@ export default function PersonalTicketAndPayment() {
       <div>
         <FormChooseTicketBooking />
       </div>
+
     </>
   );
 }
