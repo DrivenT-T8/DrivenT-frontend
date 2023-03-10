@@ -8,21 +8,21 @@ import { useState } from 'react';
 
 export default function HotelComponents() {
   const { hotel } = useHotel();
-  const { saveHotelId } = useHotelId();
-  const [ hotelExists, setHotelExists ] = useState(false);
-  const [ listRooms, setListRoom ] = useState([]);
-  console.log(hotel);
+  const { saveHotelId, hotelId } = useHotelId();
+  const [hotelExists, setHotelExists] = useState(false);
+  const [listRooms, setListRoom] = useState([]);
 
   async function getHotelById(selectedHotelId) {
     try {
       await saveHotelId(selectedHotelId).then((res) => {
+        localStorage.setItem('hotelId', selectedHotelId);
         setListRoom(res[0].Rooms);
       });
     } catch (err) {
       return err;
     }
   }
- 
+
   return (
     <>
       {hotel ? (
@@ -30,13 +30,18 @@ export default function HotelComponents() {
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
 
           <div>
-            <ChooseHotel hotel={hotel} getHotelById={getHotelById} setHotelExists={setHotelExists} listRooms={listRooms}/>
-            {hotelExists && (
-              <ChooseRoom listRooms={listRooms} />
-            )}
+            <ChooseHotel
+              hotel={hotel}
+              getHotelById={getHotelById}
+              setHotelExists={setHotelExists}
+              listRooms={listRooms}
+            />
+            {hotelExists && <ChooseRoom listRooms={listRooms} />}
           </div>
         </>
-      ) : ''}
+      ) : (
+        ''
+      )}
     </>
   );
 }

@@ -2,14 +2,12 @@ import { useState } from 'react';
 import styled from 'styled-components';
 
 export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listRooms }) {
-  const [ colorButtonSelected, setColorButtonSelected ] = useState({});
-  console.log(listRooms);
-
+  const [colorButtonSelected, setColorButtonSelected] = useState({});
   return (
     <>
       <HotelOption>
         <span>Primeiro, escolha seu hotel</span>
-        <HotelType>
+        <HotelType> 
           {hotel?.map((e, index) => (
             <ButtonHotel
               key={index}
@@ -20,7 +18,7 @@ export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listR
                 setColorButtonSelected(e);
               }}
             >
-              <img src={e.image} alt='hotel'/>
+              <img src={e.image} alt="hotel" />
               <h3>{e.name}</h3>
               <span>
                 <p>Tipos de acomodação:</p>
@@ -87,7 +85,7 @@ const ButtonHotel = styled.button`
 
   span {
     font-size: 12px;
-    color: #3C3C3C;
+    color: #3c3c3c;
 
     text-align: left;
   }
@@ -95,5 +93,4 @@ const ButtonHotel = styled.button`
   span p:first-of-type {
     font-weight: bold;
   }
-  
 `;
