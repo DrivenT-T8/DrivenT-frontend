@@ -6,7 +6,11 @@ export default function PersonalTicketAndPayment() {
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
-      <FormChooseTicketBooking />
+     
+      <div>
+        <FormChooseTicketBooking />
+      </div>
+
     </>
   );
 }

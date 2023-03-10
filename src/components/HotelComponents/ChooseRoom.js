@@ -2,31 +2,21 @@
 import styled from 'styled-components';
 import { BsPerson } from 'react-icons/bs';
 import { IoMdPerson } from 'react-icons/io';
-import { useEffect, useState } from 'react';
-import { getHotel } from '../../services/hotelApi';
+import { useState } from 'react';
 import useToken from '../../hooks/useToken';
 import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
-import { useNavigate } from 'react-router-dom';
-import useUpdateRoom from '../../hooks/api/useUpdateRoom';
-import { useContext } from 'react';
-import TicketContext from '../../contexts/TicketContext';
-export default function ChooseRoom({ EditInformation }) {
+
+export default function ChooseRoom({ listRooms }) {
+
   // a variável de estado abaixo guarda o id do quarto clicado
   const showEditInformation = EditInformation?.editPermission;
   const [buttonClickedId, setButtonClickedId] = useState([]);
-  const [listRooms, setListRoom] = useState([]);
-  const { edit, setEdit } = useContext(TicketContext);
-  const { saveRoom } = useUpdateRoom();
-  const navigate = useNavigate();
+
   const token = useToken();
-  useEffect(() => {
-    // O número 1 é um dado para exemplificar o hotelId
-    getHotel(1, token).then((res) => {
-      setListRoom(res[0].Rooms);
-    });
-  }, []);
-  async function createBooking(id, showEditInformation) {
+
+  async function createBooking(id) {
+
     try {
       if (!showEditInformation) {
         const data = { roomId: id };

@@ -1,38 +1,27 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function ChooseHotel() {
+export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listRooms }) {
   const [ colorButtonSelected, setColorButtonSelected ] = useState({});
-
-  const hotel = {
-    id: 1,
-    name: 'primeiro',
-    price: 10000 / 100,
-  };
-
-  const hotel2 = {
-    id: 2,
-    name: 'segundo',
-    price: 10000 / 100,
-  };
-  const hotelOptions = [hotel, hotel2];
+  console.log(listRooms);
 
   return (
     <>
       <HotelOption>
         <span>Primeiro, escolha seu hotel</span>
         <HotelType>
-          {hotelOptions.map((e, index) => (
+          {hotel?.map((e, index) => (
             <ButtonHotel
               key={index}
               isColorButtonSelected={colorButtonSelected.id === e.id}
               onClick={() => {
-                /* getHotelDatas(e); */
+                getHotelById(e.id);
+                setHotelExists(true);
                 setColorButtonSelected(e);
               }}
             >
-              <img src='https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdGVsc3xlbnwwfHwwfHw%3D&w=1000&q=80' alt=''/>
-              <h3>Driven Resort</h3>
+              <img src={e.image} alt='hotel'/>
+              <h3>{e.name}</h3>
               <span>
                 <p>Tipos de acomodação:</p>
                 <p>Single e Double</p>

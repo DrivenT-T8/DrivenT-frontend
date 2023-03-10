@@ -16,7 +16,7 @@ export async function createTicket(body, token) {
       Authorization: `Bearer ${token}`,
     },
   });
-
+  
   return response.data;
 }
 
