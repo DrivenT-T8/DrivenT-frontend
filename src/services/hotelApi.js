@@ -1,12 +1,12 @@
 import api from './api';
 
-export async function getHotel(hotelId, token) {
+export async function getHotelById(hotelId, token) {
   const response = await api.get(`/hotels/${hotelId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(`getHotelById: ${response.data}`);
+  console.log(`getHotelById, ${response.data}`);
   return response.data;
 }
 

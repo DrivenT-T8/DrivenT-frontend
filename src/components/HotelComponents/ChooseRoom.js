@@ -2,23 +2,15 @@
 import styled from 'styled-components';
 import { BsPerson } from 'react-icons/bs';
 import { IoMdPerson } from 'react-icons/io';
-import { useEffect, useState } from 'react';
-import { getHotel } from '../../services/hotelApi';
+import { useState } from 'react';
 import useToken from '../../hooks/useToken';
 import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
 
-export default function ChooseRoom() {
+export default function ChooseRoom({ listRooms }) {
   // a variável de estado abaixo guarda o id do quarto clicado
   const [buttonClickedId, setButtonClickedId] = useState([]);
-  const [listRooms, setListRoom] = useState([]);
   const token = useToken();
-  useEffect(() => {
-    // O número 1 é um dado para exemplificar o hotelId
-    getHotel(1, token).then((res) => {
-      setListRoom(res[0].Rooms);
-    });
-  }, []);
 
   async function createBooking(id) {
     try {
