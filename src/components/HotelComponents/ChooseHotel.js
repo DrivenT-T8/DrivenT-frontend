@@ -1,8 +1,25 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listRooms }) {
+export default function ChooseHotel({ hotel, getResponseHotelById, setHotelExists, listRooms }) {
   const [colorButtonSelected, setColorButtonSelected] = useState({});
+
+  console.log(listRooms);
+  console.log(hotel);
+
+  function getRoomCapacity(rooms) {
+    let totalVacancies = 0;
+
+    rooms.forEach((room) => {
+      const capacityPerRoom = room.capacity;
+      const bookingsPerRooom = room.Booking.length;
+      const remainingVacancies = capacityPerRoom - bookingsPerRooom;
+      totalVacancies += remainingVacancies;
+    });
+
+    return totalVacancies;
+  }
+
   return (
     <>
       <HotelOption>
@@ -13,7 +30,7 @@ export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listR
               key={index}
               isColorButtonSelected={colorButtonSelected.id === e.id}
               onClick={() => {
-                getHotelById(e.id);
+                getResponseHotelById(e.id);
                 setHotelExists(true);
                 setColorButtonSelected(e);
               }}
@@ -26,7 +43,7 @@ export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listR
               </span>
               <span>
                 <p>Vagas disponíveis:</p>
-                <p>103</p>
+                <p>{getRoomCapacity(e.Rooms)}</p>
               </span>
             </ButtonHotel>
           ))}
