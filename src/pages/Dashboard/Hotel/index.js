@@ -7,7 +7,7 @@ export default function Hotel() {
   const { ticket } = useTicket();
 
   const includesHotel = ticket?.TicketType.includesHotel;
-  const ticketStatus = ticket?.ticketStatus;
+  const ticketStatus = ticket?.status;
 
   console.log(ticket);
 
