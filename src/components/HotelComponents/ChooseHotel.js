@@ -4,8 +4,26 @@ import styled from 'styled-components';
 export default function ChooseHotel({ hotel, getResponseHotelById, setHotelExists, listRooms }) {
   const [colorButtonSelected, setColorButtonSelected] = useState({});
 
-  console.log(listRooms);
-  console.log(hotel);
+  function showAccommodationTypes(rooms) {
+    const singleAccomodation = 'Single ';
+    const doubleAccomodation = 'Double ';
+    const tripleAccomodation = 'Triple ';
+    const allTypesOfAccomodation = [];
+
+    if (rooms.some((room) => room.capacity === 1)) { 
+      allTypesOfAccomodation.push(singleAccomodation); 
+    };
+    if (rooms.some((room) => room.capacity === 2)) { 
+      allTypesOfAccomodation.push(doubleAccomodation); 
+    };
+    if (rooms.some((room) => room.capacity === 3)) {
+      allTypesOfAccomodation.push(tripleAccomodation); 
+    };
+
+    allTypesOfAccomodation.splice(-1, 0, 'e ');
+
+    return allTypesOfAccomodation;
+  }
 
   function getRoomCapacity(rooms) {
     let totalVacancies = 0;
@@ -39,7 +57,7 @@ export default function ChooseHotel({ hotel, getResponseHotelById, setHotelExist
               <h3>{e.name}</h3>
               <span>
                 <p>Tipos de acomodação:</p>
-                <p>Single e Double</p>
+                <p>{showAccommodationTypes(e.Rooms)}</p>
               </span>
               <span>
                 <p>Vagas disponíveis:</p>
