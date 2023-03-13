@@ -12,7 +12,7 @@ export default function HotelComponents() {
   const [hotelExists, setHotelExists] = useState(false);
   const [listRooms, setListRoom] = useState([]);
 
-  async function getHotelById(selectedHotelId) {
+  async function getResponseHotelById(selectedHotelId) {
     try {
       await saveHotelId(selectedHotelId).then((res) => {
         localStorage.setItem('hotelId', selectedHotelId);
@@ -32,7 +32,7 @@ export default function HotelComponents() {
           <div>
             <ChooseHotel
               hotel={hotel}
-              getHotelById={getHotelById}
+              getResponseHotelById={getResponseHotelById}
               setHotelExists={setHotelExists}
               listRooms={listRooms}
             />
