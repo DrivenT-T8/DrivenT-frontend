@@ -6,7 +6,7 @@ export default function ChooseHotel({ hotel, getResponseHotelById, setHotelExist
   const [colorButtonSelected, setColorButtonSelected] = useState({});
 
   function showAccommodationTypes(rooms) {
-    const singleAccomodation = 'Single ';
+    const singleAccomodation = 'Single, ';
     const doubleAccomodation = 'Double ';
     const tripleAccomodation = 'Triple ';
     const allTypesOfAccomodation = [];
