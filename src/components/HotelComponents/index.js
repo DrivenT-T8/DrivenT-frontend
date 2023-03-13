@@ -28,16 +28,15 @@ export default function HotelComponents() {
       {hotel ? (
         <>
           <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-
-          <div>
-            <ChooseHotel
-              hotel={hotel}
-              getResponseHotelById={getResponseHotelById}
-              setHotelExists={setHotelExists}
-              listRooms={listRooms}
-            />
-            {hotelExists && <ChooseRoom listRooms={listRooms} />}
-          </div>
+          
+          <ChooseHotel
+            hotel={hotel}
+            getResponseHotelById={getResponseHotelById}
+            setHotelExists={setHotelExists}
+            listRooms={listRooms}
+          />
+          {hotelExists && <ChooseRoom listRooms={listRooms} />}
+          
         </>
       ) : (
         ''
