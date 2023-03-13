@@ -1,6 +1,6 @@
 import api from './api';
 
-export async function getTicketsType(token) {
+export async function tsType(token) {
   const response = await api.get('/tickets/types', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -16,6 +16,20 @@ export async function createTicket(body, token) {
       Authorization: `Bearer ${token}`,
     },
   });
+  
+  return response.data;
+}
+
+export async function updateRoom(body, token) {
+  const { roomId, bookingId } = body;
+ 
+  const response = await api.put(`/booking/${bookingId}`, { roomId: roomId },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   return response.data;
 }
@@ -29,4 +43,3 @@ export async function getTicket(token) {
 
   return response.data;
 }
-
