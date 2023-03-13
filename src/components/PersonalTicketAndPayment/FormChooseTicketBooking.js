@@ -7,34 +7,40 @@ export default function FormChooseTicketBooking() {
   const [isHotel, setIsHotel] = useState(false);
   const [noHotel, setNoHotel] = useState(false);
 
-  function remote() {
-    if (showHide) setShowHide(false);
-    if (!showHide) setShowHide(true); setShowSelect(false);
-    if (!showSelect) setNoHotel(false); setIsHotel(false);
+  function toggleShowHide() {
+    setShowHide((prevState) => !prevState);
+    setShowSelect(false);
+    setIsHotel(false);
+    setNoHotel(false);
   }
-  function isRemote() {
-    if (showSelect) setShowSelect(false);
-    if (!showSelect) setShowSelect(true); setShowHide(false);
-    if (!showSelect) setNoHotel(false); setIsHotel(false);
+
+  function toggleShowSelect() {
+    setShowSelect((prevState) => !prevState);
+    setShowHide(false);
+    setIsHotel(false);
+    setNoHotel(false);
   }
-  function withHotel() {
-    if (!isHotel) setIsHotel(true); setNoHotel(false);
-    if (isHotel) setIsHotel(false);
+
+  function toggleIsHotel() {
+    setIsHotel((prevState) => !prevState);
+    setNoHotel(false);
   }
-  function hotel() {
-    if (!noHotel) setNoHotel(true); setIsHotel(false);
-    if (noHotel) setNoHotel(false);
+
+  function toggleNoHotel() {
+    setNoHotel((prevState) => !prevState);
+    setIsHotel(false);
   }
+
   return (
     <>
       <TicketOption>
         <span>Primeiro, escolha sua modalidade de ingresso</span>
         <TicketType type={showSelect}>
-          <Button onClick={isRemote} type={showSelect}>
+          <Button onClick={toggleShowSelect} type={showSelect}>
             <p>Presencial</p>
             <p>R$ 250</p>
           </Button>
-          <ButtonReverse onClick={remote} type={showHide}>
+          <ButtonReverse onClick={toggleShowHide} type={showHide}>
             <p>Online</p>
             <p>R$ 100</p>
           </ButtonReverse>
@@ -45,11 +51,11 @@ export default function FormChooseTicketBooking() {
         <TicketOption>
           <span>Ótimo! Agora escolha sua modalidade de hospedagem</span>
           <TicketType type={showSelect}>
-            <Button onClick={withHotel} isHotel={isHotel}>
+            <Button onClick={toggleIsHotel} isHotel={isHotel}>
               <p>Sem Hotel</p>
               <p>R$ 250</p>
             </Button>
-            <ButtonReverse onClick={hotel} noHotel={noHotel}>
+            <ButtonReverse onClick={toggleNoHotel} noHotel={noHotel}>
               <p>Com Hotel</p>
               <p>R$ 100</p>
             </ButtonReverse>
@@ -60,7 +66,7 @@ export default function FormChooseTicketBooking() {
         <div>
           <H1> Fechado! O total ficou em R$ 600. Agora é só confirmar: </H1>
           <ButtonReservar
-            onClick={() => alert(showHide ? 'Online' : `Presencial + ${!isHotel ?'Com Hotel' : 'Sem Hotel'} ` )}
+            onClick={() => alert(showHide ? 'Online' : `Presencial + ${!isHotel ? 'Com Hotel' : 'Sem Hotel'} `)}
           >
             RESERVAR INGRESSO
           </ButtonReservar>
