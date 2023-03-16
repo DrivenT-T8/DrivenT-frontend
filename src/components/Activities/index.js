@@ -1,4 +1,5 @@
 import { CgEnter } from 'react-icons/cg';
+import { IoCheckmarkCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 
@@ -22,10 +23,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>09:00 - 10:00</p>
               </ActivityDescription>
-              <ActivityButton>
-                <CgEnter size="20px" color= "#078632" />
+              <ActivityButtonSubscribedOrAvailable>
+                <IoCheckmarkCircleOutline size="20px" color= "#078632" />
                 <p>Inscrito</p>
-              </ActivityButton>
+              </ActivityButtonSubscribedOrAvailable>
             </ActivityOption>
 
             <ActivityOption>
@@ -33,10 +34,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>10:00 - 11:00</p>
               </ActivityDescription>
-              <ActivityButton>
+              <ActivityButtonSubscribedOrAvailable>
                 <CgEnter size="20px" color= "#078632" />
-                <p>Esgotado</p>
-              </ActivityButton>
+                <p>27 vagas</p>
+              </ActivityButtonSubscribedOrAvailable>
             </ActivityOption>
           </EachBlockListActivities>
         </BlockListActivities>
@@ -49,10 +50,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>09:00 - 10:00</p>
               </ActivityDescription>
-              <ActivityButton>
-                <CgEnter size="20px" color= "#078632" />
-                <p>Inscrito</p>
-              </ActivityButton>
+              <ActivityButtonSoldOff>
+                <IoCloseCircleOutline size="20px" color= "#CC6666" />
+                <p>Esgotado</p>
+              </ActivityButtonSoldOff>
             </ActivityOption>
 
             <ActivityOption>
@@ -60,10 +61,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>10:00 - 11:00</p>
               </ActivityDescription>
-              <ActivityButton>
+              <ActivityButtonSubscribedOrAvailable>
                 <CgEnter size="20px" color= "#078632" />
-                <p>Esgotado</p>
-              </ActivityButton>
+                <p>20 vagas</p>
+              </ActivityButtonSubscribedOrAvailable>
             </ActivityOption>
           </EachBlockListActivities>
         </BlockListActivities>
@@ -76,10 +77,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>09:00 - 10:00</p>
               </ActivityDescription>
-              <ActivityButton>
-                <CgEnter size="20px" color= "#078632" />
-                <p>Inscrito</p>
-              </ActivityButton>
+              <ActivityButtonSoldOff>
+                <IoCloseCircleOutline size="20px" color= "#CC6666" />
+                <p>Esgotado</p>
+              </ActivityButtonSoldOff>
             </ActivityOption>
 
             <ActivityOption>
@@ -87,10 +88,10 @@ export default function ChooseActivities() {
                 <p>Minecraft: montando o PC ideal</p>
                 <p>09:00 - 10:00</p>
               </ActivityDescription>
-              <ActivityButton>
-                <CgEnter size="20px" color= "#078632" />
-                <p>Inscrito</p>
-              </ActivityButton>
+              <ActivityButtonSoldOff>
+                <IoCloseCircleOutline size="20px" color= "#CC6666" />
+                <p>Esgotado</p>
+              </ActivityButtonSoldOff>
             </ActivityOption>
           </EachBlockListActivities>
         </BlockListActivities>
@@ -182,7 +183,7 @@ const ActivityDescription = styled.span`
     }
 `;
 
-const ActivityButton = styled.button`
+const ActivityButtonPattern = styled.button`
     border: none;
     padding: 2px;
 
@@ -195,7 +196,17 @@ const ActivityButton = styled.button`
         margin-top: 5px;
         
         font-size: 10px;
-        color: #078632;
     }
 `;
 
+const ActivityButtonSoldOff = styled(ActivityButtonPattern)`
+    p {
+        color: #CC6666;
+    }
+`;
+
+const ActivityButtonSubscribedOrAvailable = styled(ActivityButtonPattern)`
+    p {
+        color: #078632;
+    }
+`;
