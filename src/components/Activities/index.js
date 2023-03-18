@@ -57,7 +57,7 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -68,7 +68,7 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -79,7 +79,7 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>

@@ -1,14 +1,28 @@
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 import { CgEnter } from 'react-icons/cg';
 import { IoCheckmarkCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
 
-export default function ActivitiesOptions({ activityName }) {
+export default function ActivitiesOptions({ activityName, activityStartsAt, activityEndsAt }) {
+  const startsAt = dayjs(activityStartsAt);
+  const endsAt = dayjs(activityEndsAt);
+  const differenceEndAndStart = endsAt.diff(startsAt);
+  const durationActivity = differenceEndAndStart / (1000 * 60 * 60);
+  const heightOfActivityDuration = 80 * durationActivity;
+
+  function generateHourModel(activityStartsAt, activityEndsAt) {
+    const startsAt = dayjs(activityStartsAt).format('HH:mm');
+    const endsAt = dayjs(activityEndsAt).format('HH:mm');
+
+    return `${startsAt} - ${endsAt}`;
+  }
+
   return(
     <>
-      <ActivityOption>
+      <ActivityOption heightOfActivityDuration={heightOfActivityDuration}>
         <ActivityDescription>
           <p>{activityName}</p>
-          <p>09:00 - 10:00</p>
+          <p>{generateHourModel(activityStartsAt, activityEndsAt)}</p>
         </ActivityDescription>
         <ActivityButtonSubscribedOrAvailable>
           <CgEnter size="20px" color= "#078632" />
@@ -38,7 +52,7 @@ const ActivityOption = styled.div`
   padding: 12px 10px;
 
   display: flex;
-  height: auto;   //vai mudar de acordo com a duração da atividade
+  height: ${props => `${props.heightOfActivityDuration}px`};
 `;
 
 const ActivityDescription = styled.span`
