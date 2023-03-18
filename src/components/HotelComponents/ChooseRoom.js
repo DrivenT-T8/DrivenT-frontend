@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
 
 export default function ChooseRoom({ listRooms }) {
-
   // a variável de estado abaixo guarda o id do quarto clicado
   const showEditInformation = EditInformation?.editPermission;
   const [buttonClickedId, setButtonClickedId] = useState([]);
@@ -16,7 +15,6 @@ export default function ChooseRoom({ listRooms }) {
   const token = useToken();
 
   async function createBooking(id) {
-
     try {
       if (!showEditInformation) {
         const data = { roomId: id };
