@@ -3,29 +3,33 @@ import styled from 'styled-components';
 import { BsPerson } from 'react-icons/bs';
 import { IoMdPerson } from 'react-icons/io';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useToken from '../../hooks/useToken';
 import { toast } from 'react-toastify';
 import { saveBooking } from '../../services/bookingApi';
-
-export default function ChooseRoom({ listRooms }) {
-  // a variável de estado abaixo guarda o id do quarto clicado
+import { useContext } from 'react';
+import useUpdateRoom from '../../hooks/api/useUpdateRoom';
+import TicketContext from '../../contexts/TicketContext';
+export default function ChooseRoom({ listRooms, EditInformation }) {
+  const navigate = useNavigate();
+  const { edit, setEdit, bookingId, setBooking } = useContext(TicketContext);
   const showEditInformation = EditInformation?.editPermission;
   const [buttonClickedId, setButtonClickedId] = useState([]);
-
   const token = useToken();
-
-  async function createBooking(id) {
+  const { saveRoom } = useUpdateRoom();
+  //console.log(listRooms);
+  async function createBooking(id, showEditInformation, listRooms) {
     try {
       if (!showEditInformation) {
         const data = { roomId: id };
         const bookingId = await saveBooking(data, token);
         toast('Reserva realizada com sucesso!');
         localStorage.setItem('bookingId', bookingId.bookingId);
+        //localStorage.setItem('listRooms', JSON.stringify(listRooms));
         setEdit(false);
         return navigate('/dashboard/booking');
       } else {
         let bookingId = localStorage.getItem('bookingId');
-        bookingId = Number(bookingId);
         const data = { roomId: id, bookingId: bookingId };
         await saveRoom(data);
         toast('Reserva Trocada com sucesso!');
@@ -64,8 +68,8 @@ export default function ChooseRoom({ listRooms }) {
       <ContainerRoom>
         <span>Ótima pedida! Agora escolha seu quarto</span>
         <Rooms>
-          {listRooms.length > 0
-            ? listRooms.map((e, index) => {
+          {listRooms?.length > 0
+            ? listRooms?.map((e, index) => {
                 const listVacancies = vacancy(e.capacity, e.booking, e.id);
                 return (
                   <ButtonRoom
@@ -83,7 +87,9 @@ export default function ChooseRoom({ listRooms }) {
         </Rooms>
         {buttonClickedId.length > 0 ? (
           <SendRoom>
-            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation)}>RESERVAR QUARTO</button>
+            <button onClick={() => createBooking(buttonClickedId[0], showEditInformation, listRooms)}>
+              RESERVAR QUARTO
+            </button>
           </SendRoom>
         ) : (
           ''

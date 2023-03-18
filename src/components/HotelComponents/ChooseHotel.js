@@ -1,34 +1,68 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { ButtonHotel } from './ButtonHotel';
 
-export default function ChooseHotel({ hotel, getHotelById, setHotelExists, listRooms }) {
-  const [ colorButtonSelected, setColorButtonSelected ] = useState({});
-  console.log(listRooms);
+export default function ChooseHotel({ hotel, getResponseHotelById, setHotelExists, listRooms }) {
+  const [colorButtonSelected, setColorButtonSelected] = useState({});
+
+  function showAccommodationTypes(rooms) {
+    const singleAccomodation = 'Single, ';
+    const doubleAccomodation = 'Double ';
+    const tripleAccomodation = 'Triple ';
+    const allTypesOfAccomodation = [];
+
+    if (rooms.some((room) => room.capacity === 1)) { 
+      allTypesOfAccomodation.push(singleAccomodation); 
+    };
+    if (rooms.some((room) => room.capacity === 2)) { 
+      allTypesOfAccomodation.push(doubleAccomodation); 
+    };
+    if (rooms.some((room) => room.capacity === 3)) {
+      allTypesOfAccomodation.push(tripleAccomodation); 
+    };
+
+    allTypesOfAccomodation.splice(-1, 0, 'e ');
+
+    return allTypesOfAccomodation;
+  }
+
+  function getRoomCapacity(rooms) {
+    let totalVacancies = 0;
+
+    rooms.forEach((room) => {
+      const capacityPerRoom = room.capacity;
+      const bookingsPerRooom = room.Booking.length;
+      const remainingVacancies = capacityPerRoom - bookingsPerRooom;
+      totalVacancies += remainingVacancies;
+    });
+
+    return totalVacancies;
+  }
 
   return (
     <>
       <HotelOption>
         <span>Primeiro, escolha seu hotel</span>
-        <HotelType>
+        <HotelType> 
           {hotel?.map((e, index) => (
             <ButtonHotel
               key={index}
               isColorButtonSelected={colorButtonSelected.id === e.id}
               onClick={() => {
-                getHotelById(e.id);
+                getResponseHotelById(e.id);
                 setHotelExists(true);
                 setColorButtonSelected(e);
               }}
             >
-              <img src={e.image} alt='hotel'/>
+              <img src={e.image} alt="hotel" />
               <h3>{e.name}</h3>
               <span>
                 <p>Tipos de acomodação:</p>
-                <p>Single e Double</p>
+                <p>{showAccommodationTypes(e.Rooms)}</p>
               </span>
               <span>
                 <p>Vagas disponíveis:</p>
-                <p>103</p>
+                <p>{getRoomCapacity(e.Rooms)}</p>
               </span>
             </ButtonHotel>
           ))}
@@ -53,47 +87,3 @@ const HotelType = styled.div`
   gap: 5%;
 `;
 
-const ButtonHotel = styled.button`
-  background: ${(props) => (props.isColorButtonSelected ? '#FFEED2' : '#EBEBEB')};
-
-  border: none;
-  border-radius: 10px;
-
-  padding: 16px 14px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  height: 264px;
-  width: 196px;
-
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  font-weight: 400;
-  color: #343434;
-
-  cursor: pointer;
-
-  > img {
-    border-radius: 5px;
-
-    height: 109px;
-    width: 168px;
-  }
-
-  > h3 {
-    font-size: 20px;
-  }
-
-  span {
-    font-size: 12px;
-    color: #3C3C3C;
-
-    text-align: left;
-  }
-
-  span p:first-of-type {
-    font-weight: bold;
-  }
-  
-`;
