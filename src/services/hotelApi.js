@@ -6,7 +6,7 @@ export async function getHotelById(hotelId, token) {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(`getHotelById, ${response.data}`);
+
   return response.data;
 }
 
@@ -16,8 +16,6 @@ export async function getAllHotels(token) {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  console.log(response.data);
 
   return response.data;
 }
