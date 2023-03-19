@@ -1,15 +1,31 @@
 import dayjs from 'dayjs';
-import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { CgEnter } from 'react-icons/cg';
 import { IoCheckmarkCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
+import useSaveActivityBooking from '../../hooks/api/useSaveActivityBooking';
+import styled from 'styled-components';
+import { useState } from 'react';
 
-export default function ActivitiesOptions({ activityName, activityStartsAt, activityEndsAt, activityCapacity, activityBooking }) {
+export default function ActivitiesOptions({ activityBooking, activity }) {
+  const { 
+    id: activityId,
+    name: activityName,
+    startsAt: activityStartsAt,
+    endsAt: activityEndsAt,
+    capacity: activityCapacity,
+  } = activity;
+
   const startsAt = dayjs(activityStartsAt);
   const endsAt = dayjs(activityEndsAt);
   const differenceEndAndStart = endsAt.diff(startsAt);
   const durationActivity = differenceEndAndStart / (1000 * 60 * 60);
   const heightOfActivityDuration = 80 * durationActivity;
+
   const vacanciesAvailable = activityCapacity - activityBooking;
+
+  const { saveActivityBooking } = useSaveActivityBooking();
+  const [ subscribed, setSubscribed ] = useState(false);
+  const [ isSubscribed, setIsSubscribed ] = useState({});
 
   function generateHourModel(activityStartsAt, activityEndsAt) {
     const startsAt = dayjs(activityStartsAt).format('HH:mm');
@@ -18,15 +34,33 @@ export default function ActivitiesOptions({ activityName, activityStartsAt, acti
     return `${startsAt} - ${endsAt}`;
   }
 
+  async function createActivityBooking(id, activity) {
+    try {
+      const data = { activityId: id };
+      const booking = await saveActivityBooking(data);
+      setSubscribed(true);
+      setIsSubscribed(activity);
+      toast('Inscrição realizada com sucesso!');
+    } catch (err) {
+      toast('Não foi possível realizar a inscrição!');
+    }
+  }
+
   return(
     <>
-      <ActivityOption heightOfActivityDuration={heightOfActivityDuration}>
+      <ActivityOption 
+        heightOfActivityDuration={heightOfActivityDuration} 
+        isSubscribedGreen={isSubscribed.id === activity.id}
+      >
         <ActivityDescription>
           <p>{activityName}</p>
           <p>{generateHourModel(activityStartsAt, activityEndsAt)}</p>
         </ActivityDescription>
-        {vacanciesAvailable > 0 && (
-          <ActivityButtonSubscribedOrAvailable>
+        {vacanciesAvailable > 0 && subscribed === false && (
+          <ActivityButtonSubscribedOrAvailable 
+            isSubscribedGreen={isSubscribed.id === activity.id}
+            onClick={() => createActivityBooking(activityId, activity)}
+          >
             <CgEnter size="20px" color= "#078632" />
             <p>{vacanciesAvailable} vagas</p>
           </ActivityButtonSubscribedOrAvailable>
@@ -37,21 +71,21 @@ export default function ActivitiesOptions({ activityName, activityStartsAt, acti
             <p>Esgotado</p>
           </ActivityButtonSoldOff>
         )}
+        {subscribed === true && (
+          <ActivityButtonSubscribedOrAvailable 
+            isSubscribedGreen={isSubscribed.id === activity.id}
+          >
+            <IoCheckmarkCircleOutline size="20px" color= "#078632" />
+            <p>Inscrito</p>
+          </ActivityButtonSubscribedOrAvailable> 
+        )}
       </ActivityOption>
-
-      {/*  Esses são os outros tipos de ícones, dependendo se tem vagas, está esgotado ou foi inscrito:
-      
-        <ActivityButtonSubscribedOrAvailable>
-          <IoCheckmarkCircleOutline size="20px" color= "#078632" />
-          <p>Inscrito</p>
-        </ActivityButtonSubscribedOrAvailable> 
-      */}
     </>
   );
 }
 
 const ActivityOption = styled.div`
-  background-color: #F1F1F1;
+  background-color: ${(props) => (props.isSubscribedGreen ? '#D0FFDB' : '#F1F1F1')};
   border-radius: 5px;
   margin-bottom: 10px;
   padding: 12px 10px;
@@ -100,6 +134,8 @@ const ActivityButtonSoldOff = styled(ActivityButtonPattern)`
 `;
 
 const ActivityButtonSubscribedOrAvailable = styled(ActivityButtonPattern)`
+  background-color: ${(props) => (props.isSubscribedGreen ? '#D0FFDB' : '#F1F1F1')};
+
   p {
     color: #078632;
   }

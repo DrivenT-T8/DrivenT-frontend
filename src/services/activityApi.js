@@ -19,4 +19,3 @@ export async function getActivitiesByDateId(dateId, token) {
 
   return response.data;
 }
-

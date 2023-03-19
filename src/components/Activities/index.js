@@ -46,7 +46,7 @@ export default function ChooseActivities() {
         ))}
       </WeekDays>
       
-      {chosenDateSelected !== undefined && (
+      {chosenDateSelected !== {} && (
         <ActivityContainer>
           {activitiesOfDateSelected?.map((localActivity) => (
             <>
@@ -55,7 +55,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} activityCapacity={activity.capacity} activityBooking={activity.ActivityBooking.length}/>
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -66,7 +69,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} activityCapacity={activity.capacity} activityBooking={activity.ActivityBooking.length} />
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -77,7 +83,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} activityStartsAt={activity.startsAt} activityEndsAt={activity.endsAt} activityCapacity={activity.capacity} activityBooking={activity.ActivityBooking.length} />
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
