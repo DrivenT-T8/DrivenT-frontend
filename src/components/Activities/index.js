@@ -10,10 +10,8 @@ import ActivitiesOptions from './ActivitiesOptions';
 export default function ChooseActivities() {
   const { activityDates } = useActivity();
   const { getActivitiesByDateId } = useActivityByDate();
-  const [ chosenDateSelected, setChosenDateSelected ] = useState(false);
+  const [ chosenDateSelected, setChosenDateSelected ] = useState({});
   const [ activitiesOfDateSelected, setActivitiesOfDateSelected ] = useState([]);
-
-  console.log(activityDates);
 
   function generateDateModel(date) {
     const currentWeekday = dayjs(date).locale('pt-br').format('dddd');
@@ -40,15 +38,15 @@ export default function ChooseActivities() {
 
       <WeekDays>
         {activityDates?.map((dates) => (
-          <WeekDaysButton onClick={() => {
-            setChosenDateSelected(true);
+          <WeekDaysButton isSelected={chosenDateSelected.id === dates.id} onClick={() => {
+            setChosenDateSelected(dates);
             getActivitiesChosenDate(dates.id);
           }}>
             {generateDateModel(dates.date)}</WeekDaysButton>
         ))}
       </WeekDays>
       
-      {chosenDateSelected && (
+      {chosenDateSelected !== {} && (
         <ActivityContainer>
           {activitiesOfDateSelected?.map((localActivity) => (
             <>
@@ -57,7 +55,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -68,7 +69,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -79,7 +83,10 @@ export default function ChooseActivities() {
                   <h2>{localActivity.name}</h2>
                   <EachBlockListActivities>
                     {localActivity.Activities?.map((activity) => (
-                      <ActivitiesOptions activityName={activity.name} />
+                      <ActivitiesOptions 
+                        activityBooking={activity.ActivityBooking.length} 
+                        activity={activity} 
+                      />
                     ))}
                   </EachBlockListActivities>
                 </BlockListActivities>
@@ -105,7 +112,7 @@ const WeekDays = styled.div`
 
 const WeekDaysButton = styled.button`
   margin: 0 17px 10px 0;
-  background-color: #E0E0E0;
+  background-color: ${(props) => (props.isSelected ? '#FFD37D' : '#E0E0E0')};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   border: none;
