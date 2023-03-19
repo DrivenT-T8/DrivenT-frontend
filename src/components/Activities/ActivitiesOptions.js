@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { CgEnter } from 'react-icons/cg';
 import { IoCheckmarkCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
 
-export default function ActivitiesOptions({ activityName, activityStartsAt, activityEndsAt }) {
+export default function ActivitiesOptions({ activityName, activityStartsAt, activityEndsAt, activityCapacity, activityBooking }) {
   const startsAt = dayjs(activityStartsAt);
   const endsAt = dayjs(activityEndsAt);
   const differenceEndAndStart = endsAt.diff(startsAt);
   const durationActivity = differenceEndAndStart / (1000 * 60 * 60);
   const heightOfActivityDuration = 80 * durationActivity;
+  const vacanciesAvailable = activityCapacity - activityBooking;
 
   function generateHourModel(activityStartsAt, activityEndsAt) {
     const startsAt = dayjs(activityStartsAt).format('HH:mm');
@@ -24,17 +25,21 @@ export default function ActivitiesOptions({ activityName, activityStartsAt, acti
           <p>{activityName}</p>
           <p>{generateHourModel(activityStartsAt, activityEndsAt)}</p>
         </ActivityDescription>
-        <ActivityButtonSubscribedOrAvailable>
-          <CgEnter size="20px" color= "#078632" />
-          <p>20 vagas</p>
-        </ActivityButtonSubscribedOrAvailable>
+        {vacanciesAvailable > 0 && (
+          <ActivityButtonSubscribedOrAvailable>
+            <CgEnter size="20px" color= "#078632" />
+            <p>{vacanciesAvailable} vagas</p>
+          </ActivityButtonSubscribedOrAvailable>
+        )}
+        {vacanciesAvailable === 0 && (
+          <ActivityButtonSoldOff>
+            <IoCloseCircleOutline size="20px" color= "#CC6666" />
+            <p>Esgotado</p>
+          </ActivityButtonSoldOff>
+        )}
       </ActivityOption>
 
       {/*  Esses são os outros tipos de ícones, dependendo se tem vagas, está esgotado ou foi inscrito:
-        <ActivityButtonSoldOff>
-          <IoCloseCircleOutline size="20px" color= "#CC6666" />
-          <p>Esgotado</p>
-        </ActivityButtonSoldOff>
       
         <ActivityButtonSubscribedOrAvailable>
           <IoCheckmarkCircleOutline size="20px" color= "#078632" />
